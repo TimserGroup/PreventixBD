@@ -1,0 +1,109 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<div class="cont" style="padding-top: 10%">
+
+
+    <div class="row">
+        <div class="col w-50" style="width: 50% !important; float: left !important;">
+            <div class="col-xs-12 text-center">
+                <h2>Preventix vs Biopsia </h2>
+            </div>
+            <div id="donut-chart" ></div>
+        </div>
+
+        <div class="col w-50" style="width: 50% !important; float: left !important;">
+            <div class="col-xs-12 text-center">
+                <h2>Preventix vs Pap</h2>
+            </div>
+            <div id="donut-chart2"></div>
+        </div>
+    </div>
+{#    <div class="row">#}
+{#        <div class="col" style="width: 50% !important; float: left !important;">#}
+{#            <div class="col-xs-12 text-center">#}
+{#                <h2>Pesos</h2>#}
+{#            </div>#}
+{#            <div id="donut-chart3"></div>#}
+{#        </div>#}
+{##}
+{#        <div class="col" style="width: 50% !important; float: left !important;">#}
+{#            <div class="col-xs-12 text-center">#}
+{#                <h2>IMC</h2>#}
+{#            </div>#}
+{#            <div id="donut-chart4"></div>#}
+{#        </div>#}
+{#    </div>#}
+{#    <div class="row">#}
+{#        <div class="col" style="width: 50% !important; float: left !important;">#}
+{#            <div class="col-xs-12 text-center">#}
+{#                <h2>Tratamiento Hormonal</h2>#}
+{#            </div>#}
+{#            <div id="donut-chart5"></div>#}
+{#        </div>#}
+{#        <div class="col" style="width: 50% !important; float: left !important;">#}
+{#            <div class="col-xs-12 text-center">#}
+{#                <h2>Vacunadas VPH</h2>#}
+{#            </div>#}
+{#            <div id="donut-chart6"></div>#}
+{#        </div>#}
+{#    </div>#}
+</div>
+
+    <script>
+        var chart = bb.generate({
+            data: {
+                columns: [
+                    ["Positivas", {{ dataPrevNBiopsia }}],
+                    ["Negativas", {{  dataPrevNBiopsiaN }}],
+                ],
+                type: "donut",
+                onclick: function(d, i) {
+                    console.log("onclick", d, i);
+                },
+                onover: function(d, i) {
+                    console.log("onover", d, i);
+                },
+                onout: function(d, i) {
+                    console.log("onout", d, i);
+                },
+            },
+            donut: {
+                title: "{{dataPrevNBiopsiaN+dataPrevNBiopsia}}",
+            },
+            bindto: "#donut-chart",
+        });
+
+    </script>
+
+
+
+    <script>
+        var chart = bb.generate({
+            data: {
+                columns: [
+                    ["Positivas", {{ dataPrevBiopsia }}],
+                    ["Negativas", {{ dataPrevBiopsiaN }}],
+                ],
+                type: "donut",
+                onclick: function(d, i) {
+                    console.log("onclick", d, i);
+                },
+                onover: function(d, i) {
+                    console.log("onover", d, i);
+                },
+                onout: function(d, i) {
+                    console.log("onout", d, i);
+                },
+            },
+            donut: {
+                title: "{{ dataPrevBiopsiaN + dataPrevBiopsia }}",
+            },
+            bindto: "#donut-chart2",
+        });
+
+    </script>
+
+
+
+{% endblock %}

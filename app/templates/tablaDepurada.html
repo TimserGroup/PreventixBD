@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="row w-100" style="padding-top: 10%">
+<div class="col w-100">
+
+<table class="fl-table" style="padding-top: 50%">
+    <thead>
+          <tr style="background-color: darkblue; color: white; font-weight: bold">
+                <td>ID</td>
+                <td>Nombre</td>
+                <td>Interpretación PREVENTIX</td>
+                <td>Númerico PREVENTIX</td>
+                <td>Resultado PCR VPH</td>
+                <td>Númerico VPH</td>
+                <td>Resultado Papanicolaou</td>
+                <td>Númerico Papanicolaou</td>
+                <td>Resultado Colposcopia</td>
+                <td>Númerico Colposcopia</td>
+                <td>Resultado Biopsia</td>
+                <td>Númerico Biopsia</td>
+          </tr>
+        </thead>
+    <tbody>
+        {% for pacientesupdate in pacientes %}
+        <tr>
+
+             <td>{{pacientesupdate.ID}}</td>
+             <td>{{pacientesupdate.Nombre}}</td>
+            <td>{{pacientesupdate.PREVENTIX}}</td>
+            <td>{{pacientesupdate.RESULTADO_NUMERICO_PREVENTIX}}</td>
+            <td>{{pacientesupdate.Resultado_PCR_VPH}}</td>
+            <td>{{pacientesupdate.RESULTADO_NUMERICO_VPH}}</td>
+            <td>{{pacientesupdate.Resultado_Papanicolaou}}</td>
+            <td>{{pacientesupdate.RESULTADO_NUMERICO_PAP}}</td>
+            <td>{{pacientesupdate.Resultado_de_colposcopio}}</td>
+            <td>{{pacientesupdate.resultado_numerico_colposcopia}}</td>
+            <td>{{pacientesupdate.Resultado_biopsia_de_cervix}}</td>
+            <td>{{pacientesupdate.Resultado_num_biopsia}}</td>
+
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+ </div>
+</div>
+{% endblock %}

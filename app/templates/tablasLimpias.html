@@ -1,0 +1,96 @@
+{% extends "layout.html" %} {% block body %} <div class="row w-100" style="padding-top: 10%">
+  <div class="col w-100">
+    <table class="fl-table" style="padding-top: 50%">
+      <h1 style="text-align: center; color: white">Pacientes Positivas PREVENTIX</h1>
+      <thead>
+        <tr style="background-color: darkblue; color: white; font-weight: bold">
+          <td>#</td>
+          <td>ID</td>
+          <td>PREVENTIX</td>
+          <td>VPH</td>
+          <td>Papanicolaou</td>
+          <td>Colposcopia</td>
+          <td>Biopsia</td>
+        </tr>
+      </thead>
+      <tbody> {% for paciente in pacientesPREVENTIX %} <tr>
+          <td>{{ loop.index }}</td>
+          <td>{{ paciente.ID }}</td>
+          <td>{{ paciente.RESULTADO_NUMERICO_PREVENTIX }}</td>
+          <td>{{ paciente.RESULTADO_NUMERICO_VPH }}</td>
+          <td>{{ paciente.RESULTADO_NUMERICO_PAP }}</td>
+          <td>{{ paciente.resultado_numerico_colposcopia }}</td>
+          <td>{{ paciente.Resultado_num_biopsia }}</td>
+        </tr> {% endfor %} </tbody>
+    </table>
+    <table class="fl-table" style="padding-top: 50%">
+      <h1 style="text-align: center; color: white">Pacientes Positivas PREVENTIX y VPH</h1>
+      <thead>
+        <tr style="background-color: darkblue; color: white; font-weight: bold">
+          <td>#</td>
+          <td>ID</td>
+          <td>PREVENTIX</td>
+          <td>VPH</td>
+          <td>Papanicolaou</td>
+          <td>Colposcopia</td>
+          <td>Biopsia</td>
+        </tr>
+      </thead>
+      <tbody> {% for paciente in pacientesPREVVPH %} <tr>
+          <td>{{ loop.index }}</td>
+          <td>{{ paciente.ID }}</td>
+          <td>{{ paciente.RESULTADO_NUMERICO_PREVENTIX }}</td>
+          <td>{{ paciente.RESULTADO_NUMERICO_VPH }}</td>
+          <td>{{ paciente.RESULTADO_NUMERICO_PAP }}</td>
+          <td>{{ paciente.resultado_numerico_colposcopia }}</td>
+          <td>{{ paciente.Resultado_num_biopsia }}</td>
+        </tr> {% endfor %} </tbody>
+    </table>
+    <table class="fl-table" style="padding-top: 50%">
+      <h1 style="text-align: center; color: white">Pacientes Positivas VPH</h1>
+      <thead>
+        <tr style="background-color: darkblue; color: white; font-weight: bold">
+          <td>#</td>
+          <td>ID</td>
+          <td>PREVENTIX</td>
+          <td>VPH</td>
+          <td>Papanicolaou</td>
+          <td>Colposcopia</td>
+          <td>Biopsia</td>
+        </tr>
+      </thead>
+      <tbody> {% for paciente in pacientesVPH %} <tr>
+          <td>{{ loop.index }}</td>
+          <td>{{ paciente.ID }}</td>
+          <td>{{ paciente.RESULTADO_NUMERICO_PREVENTIX }}</td>
+          <td>{{ paciente.RESULTADO_NUMERICO_VPH }}</td>
+          <td>{{ paciente.RESULTADO_NUMERICO_PAP }}</td>
+          <td>{{ paciente.resultado_numerico_colposcopia }}</td>
+          <td>{{ paciente.Resultado_num_biopsia }}</td>
+        </tr> {% endfor %} </tbody>
+    </table>
+    <table class="fl-table" style="padding-top: 50%">
+      <h1 style="text-align: center; color: white">Pacientes con Biopsia</h1>
+      <thead>
+        <tr style="background-color: darkblue; color: white; font-weight: bold">
+          <td>#</td>
+          <td>ID</td>
+          <td>PREVENTIX</td>
+          <td>VPH</td>
+          <td>Papanicolaou</td>
+          <td>Colposcopia</td>
+          <td>Biopsia</td>
+        </tr>
+      </thead>
+      <tbody> {% for paciente in pacientesBiopsia %} <tr>
+          <td>{{ loop.index }}</td>
+          <td>{{ paciente.ID }}</td>
+          <td>{{ paciente.RESULTADO_NUMERICO_PREVENTIX }}</td>
+          <td>{{ paciente.RESULTADO_NUMERICO_VPH }}</td>
+          <td>{{ paciente.RESULTADO_NUMERICO_PAP }}</td>
+          <td>{{ paciente.resultado_numerico_colposcopia }}</td>
+          <td>{{ paciente.Resultado_num_biopsia }}</td>
+        </tr> {% endfor %} </tbody>
+    </table>
+  </div>
+</div> {% endblock %}

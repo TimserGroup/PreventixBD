@@ -1,0 +1,97 @@
+{% extends "layout.html" %} {% block body %}
+
+    <div class="container" style="padding-top: 150px; ">
+  <form method="POST" action="/procesar">
+    <div class="row">
+      <div class="col-sm">
+        <select name="opcion1" class="select">
+          <option value="RESULTADO_NUMERICO_PREVENTIX">PREVENTIX</option>
+          <option value="RESULTADO_NUMERICO_VPH">VPH</option>
+          <option value="RESULTADO_NUMERICO_PAP">Papanicolaou</option>net <option value="resultado_numerico_colposcopia">Colposcopia</option>
+          <option value="Resultado_num_biopsia">Biopsia</option>
+        </select>
+      </div>
+      <div class="col-sm">
+        <select name="opcion2" class="select">
+          <option value="resultado_numerico_colposcopia">Colposcopia</option>
+          <option value="RESULTADO_NUMERICO_PREVENTIX">PREVENTIX</option>
+          <option value="RESULTADO_NUMERICO_VPH">VPH</option>
+          <option value="RESULTADO_NUMERICO_PAP">Papanicolaou</option>
+          <option value="Resultado_num_biopsia">Biopsia</option>
+        </select>
+      </div>
+      <div class="col-sm">
+        <input type="submit" value="Calcular Pruebas" class="">
+      </div>
+    </div>
+  </form>
+  <div class="container text-center" style="padding-top: 40px; color: white; ">
+  </div>
+  <div class="container" style="padding-top: 15px;">
+    <div class="row">
+      <div class="col">
+        <div class="table-users">
+          <div class="header">Preventix vs Colposcopia</div>
+          <table cellspacing="0">
+            <tr>
+              <th></th>
+              <th>+</th>
+              <th>-</th>
+              <th></th>
+            </tr>
+            <tr>
+              <th> + </th>
+              <td>#</td>
+              <td>#</td>
+              <td>sum</td>
+            </tr>
+            <tr>
+              <th> - </th>
+              <td># </td>
+              <td>#</td>
+              <td>Sum</td>
+            </tr>
+            <tr>
+              <th></th>
+              <td>Sum</td>
+              <td>Sum</td>
+              <td>Sum</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="col">
+        <div class="table-users">
+          <div class="header">Analisis</div>
+          <table cellspacing="0">
+            <tr>
+              <th></th>
+              <th style="font-weight: bold">+</th>
+              <th>-</th>
+              <th></th>
+            </tr>
+            <tr>
+              <th> + </th>
+              <td>#</td>
+              <td>#</td>
+              <td>sum</td>
+            </tr>
+            <tr>
+              <th> - </th>
+              <td># </td>
+              <td>#</td>
+              <td>Sum</td>
+            </tr>
+            <tr>
+              <th></th>
+              <td>Sum</td>
+              <td>Sum</td>
+              <td>Sum</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+    </div>
+{% endblock %}

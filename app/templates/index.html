@@ -1,0 +1,151 @@
+{% extends "layout.html" %}
+{% block body %}
+
+
+<div class="row w-100" style="padding-top: 10%">
+<div class="col w-100">
+      <div class="table-wrapper">
+          <table class="fl-table">
+        <thead>
+          <tr style="background-color: darkblue; color: white; font-weight: bold">
+          <td>Folio </td>
+          <td>ID Form</td>
+          <td>Nombre</td>
+          <td>Fecha de nacimiento</td>
+          <td>Edad</td>
+          <td>Peso</td>
+          <td>Talla (cm)</td>
+          <td>IMC</td>
+          <td>Tratamiento hormonal actual</td>
+          <td>Vacunas</td>
+          <td>Cáncer ATX</td>
+          <td>Diabetes</td>
+          <td>Hipertension</td>
+          <td>Tiroideo</td>
+          <td>Inmunologico</td>
+          <td>VIH</td>
+          <td>ITS</td>
+          <td>VPH</td>
+          <td>Fuma</td>
+          <td>Drogas</td>
+          <td>IVSA</td>
+          <td>NPS</td>
+          <td>Año del último papanicolau</td>
+          <td>MPF</td>
+          <td>Gestas</td>
+          <td>Interpretación PREVENTIX final</td>
+          <td>VPH2</td>
+          <td>Gen</td>
+          <td>Citología resultada</td>
+          <td>Trichoma Vaginalis</td>
+          <td>Microorganismos fúngicos compatibles con cándida spp</td>
+          <td>Cambio en la flora sugestivo de vaginosis bacteriana</td>
+          <td>Bacterias compatibles con Actinomyces spp</td>
+          <td>Cambios celulares compatibles con herpes</td>
+          <td>Alteraciones celulares inflamatorias</td>
+          <td>Alteraciones celulares secundarias a radiación</td>
+          <td>Alteraciones celulares secundarias a DIU</td>
+          <td>Atrofia celular</td>
+          <td>Células escamosas atípicas de significado incierto (ASC-US)</td>
+          <td>Células escamosas atípicas de significado incierto, no es posible descartar lesión de alto grado (ASC-H)</td>
+          <td>Cambios celulares sugestivos de infección por virus del papiloma humano</td>
+          <td>Lesión intraepitelial escamosa de bajo grado (displasia leve)</td>
+          <td>Lesión intraepitelial escamosa de alto grado (displasia moderada-severa-carcinoma in situ)</td>
+          <td>Carcinoma de células escamosas</td>
+          <td>Células endometriales benignas en postmenopausia</td>
+          <td>Células glandulares atípicas de significado no determinado (AGUS)</td>
+          <td>Adenocarcinoma de origen endocervical</td>
+          <td>Adenocarcinoma de origen endometrial</td>
+          <td>Adenocarcinoma de origen no definido</td>
+          <td>Colposcopía</td>
+          <td>Cérvix</td>
+          <td>Zona de transformación</td>
+          <td>Superficie</td>
+          <td>Bordes</td>
+          <td>Epitelio Acetoblanco</td>
+          <td>Prueba de Shiller</td>
+          <td>Diagnóstico Colposcópico</td>
+          <td>Otros</td>
+          <td>Biopsia</td>
+          <td>Diagnóstico</td>
+          </tr>
+        </thead>
+        <tbody>
+          {% for paciente in pacientes %}
+          <tr>
+            <td>{{paciente.Folio}}</td>
+            <td>{{paciente.IDForm}}</td>
+            <td>{{paciente.Nombre}}</td>
+            <td>{{paciente.FechaNacimiento}}</td>
+            <td>{{paciente.Edad}}</td>
+            <td>{{paciente.Peso}}</td>
+            <td>{{paciente.Talla}}</td>
+            <td>{{paciente.IMC}}</td>
+            <td>{{paciente.TRATAMIENTO_HORMONAL_ACTUAL}}</td>
+            <td>{{paciente.VACUNAS}}</td>
+            <td>{{paciente.CANCER_ATX}}</td>
+            <td>{{paciente.DIABETES}}</td>
+            <td>{{paciente.HIPERTENSION}}</td>
+            <td>{{paciente.TIROIDEO}}</td>
+            <td>{{paciente.INMUNOLOGICO}}</td>
+            <td>{{paciente.VIH}}</td>
+            <td>{{paciente.ITS}}</td>
+            <td>{{paciente.VPH}}</td>
+            <td>{{paciente.FUMA}}</td>
+            <td>{{paciente.DROGAS}}</td>
+            <td>{{paciente.IVSA}}</td>
+            <td>{{paciente.NPS}}</td>
+            <td>{{paciente.ANO_DEL_ULTIMO_PAP}}</td>
+            <td>{{paciente.MPF}}</td>
+            <td>{{paciente.Gestas}}</td>
+            <td>{{paciente.INTERPRETACION_PREVENTIX_FINAL}}</td>
+            <td>{{paciente.VPH2}}</td>
+            <td>{{paciente.Gen}}</td>
+            <td>{{paciente.CitologiaResultado}}</td>
+            <td>{{paciente.TrichomonaVaginalis}}</td>
+            <td>{{paciente.MicroorganismosFungicosCandidaSpp}}</td>
+            <td>{{paciente.VaginosisBacteriana}}</td>
+            <td>{{paciente.BacteriasCompatiblesConActinomycesSpp}}</td>
+            <td>{{paciente.CambiosCelularesCompatiblesConHerpes}}</td>
+            <td>{{paciente.AlteracionesCelularesInflamatorias}}</td>
+            <td>{{paciente.AlteracionesCelularesSecundariasARadiacion}}</td>
+            <td>{{paciente.AlteracionesCelularesSecundariasADIU}}</td>
+            <td>{{paciente.AtrofiaCelular}}</td>
+            <td>{{paciente.CelulasEscamosasASC_US}}</td>
+            <td>{{paciente.CelulasEscamosasASC_H}}</td>
+            <td>{{paciente.CambiosCelularesVPH}}</td>
+            <td>{{paciente.LesionIntraepitelialDisplasiaLeve}}</td>
+            <td>{{paciente.LesionIntraepitelialDisplasiaModerada}}</td>
+            <td>{{paciente.CarcinomaDeCelulasEscamosas}}</td>
+            <td>{{paciente.CelulasEndometrialesBenignasEnPostmenopausia}}</td>
+            <td>{{paciente.CelulasGlandularesAtipicasAGUS}}</td>
+            <td>{{paciente.AdenocarcinomaDeOrigenEndocervical}}</td>
+            <td>{{paciente.AdenocarcinomaDeOrigenEndometrial}}</td>
+            <td>{{paciente.AdenocarcinomaDeOrigenNoDefinido}}</td>
+            <td>{{paciente.Colposcopia}}</td>
+            <td>{{paciente.Cervix}}</td>
+            <td>{{paciente.ZonaDeTransformacion}}</td>
+            <td>{{paciente.Superficie}}</td>
+            <td>{{paciente.Bordes}}</td>
+            <td>{{paciente.EpitelioAcetoblanco}}</td>
+            <td>{{paciente.PruebaDeShiller}}</td>
+            <td>{{paciente.DiagnosticoColposcopico}}</td>
+            <td>{{paciente.Otros}}</td>
+            <td>{{paciente.Biopsia}}</td>
+            <td>{{paciente.Diagnostico}}</td>
+
+            <td>
+              <a href="/edit/{{paciente.id}}" class="btn btn-secondary">Editar</a>
+              <a href="/delete/{{paciente.id}}" class="btn btn-danger btn-delete">Borrar</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

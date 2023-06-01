@@ -1,0 +1,226 @@
+ID,Nombre,RESULTADO_NUMERICO,PREVENTIX,RESULTADO_NUMERICO_VPH,SEROTIPO_16,SEROTIPO_18,SEROTIPO_31_68,Resultado_PCR_VPH,RESULTADO_NUMERICO,Resultado_Papanicolaou,ALTERACIONES_CELULARES_POR_INFECCION,ALTERACIONES_CELULARES_REACTIVAS,ALTERACIONES_EN_CELULAS_ESCAMOSAS,ALTERACIONES_EN_CELULAS_GLANDULARES,Resultado_de_colposcopio,resultado_numerico_colposcopia,Resultado_biopsia_de_cervix,Resultado_biopsia_de_vagina,Antecedente_de_VPH_o_displasia
+
+Separa la columna PREVENTIX cada que encuentres una coma y realiza una busqueda de las sig palabras y asigna los valores en un arreglo llamado interpetacionPreventix
+	'NEGATIVO' = '0'
+	'POSITIVO' = '1'
+
+Separa la columna PCR_DE_VHP cada que encuentres una coma y realiza una busqueda de las sig palabras y asigna los valores de las palabras que encuentes en un arreglo llamado interpetacionPCR_DE_VHP
+PCR_DE_VHP
+	'POSITIVO' = '2'
+	'NEGATIVO' = '3'
+	'SEROTIPO 16'= '4'
+	'SEROTIPO 18' = '5'
+	'POL DE 13' = '6'
+
+Separa la columna CITOLOGIA cada que encuentres una coma y realiza una busqueda de las sig palabras y asigna los valores de las palabras que encuentes en un arreglo llamado interpetacionCITOLOGIA
+CITOLOGIA
+	'POSITIVA' = '7'
+	'NEGATIVA' = '8'
+	'ALTERACIONES CELULARES INFLAMATORIAS LEVES' = '9'
+	'ALTERACIONES CELULARES INFLAMATORIAS MODERADAS' = '10'
+	'ALTERACIONES CELULARES INFLAMATORIAS SEVERAS' = '11'
+	'ALTERACIONES INFLAMATORIAS SECUNDARIAS A RADIACION' = '12'
+	'ALTERACIONES INFLAMATORIAS SECUNDARIAS A DIU' = '13'
+	'ATROFIA CELULAR' = '14'
+	'ASCUS' = '15'
+	'ASC-H' = '16'
+	'CAMBIOS CELULARES SUJESTIVOS A VPH' = '17'
+	'LESION DE BAJO GRADO' = '18'
+	'LESION DE ALTO GRADO' = '19'
+	'CARCINOMA DE CELULAS ESCAMOSAS' = '20'
+	'CELULAS ENDOMETRIALES BENIGNAS POST MENOPAUSIA' = '21'
+	'AGUS' = '22'
+	'ADENOCARCINOMA DE ORIGEN ENDOCERVICAL' = '23'
+	'ADENOCARCINOMA DE ORIGEN ENDOMETRIAL' = '24'
+	'ADENOCARCINOMA DE ORIGEN NO DEFINIDO' = '25'
+
+Separa la columna COLPOSCOPIA cada que encuentres una coma y realiza una busqueda de las sig palabras y asigna los valores de las palabras que encuentes en un arreglo llamado interpetacionCOLPOSCOPIA
+COLPOSCOPIA
+	'SIN ALTERACIONES' = '26'
+	'ALTERACIONES INFLAMATORIAS' = '27'
+	'LIBG' = '28'
+	'LIAG' = '29'
+	'POLIPO CERVICAL' = '30'
+	'METAPLASIA ESCAMOSA' = '31'
+	'ATROFIA SEVERA' = '32'
+	'CONDILOMATOSIS' = '33'
+	'PROBABLE LIQUEN ESCLEROSO' = '34'
+	'ATROFIA VAGINAL' = '35'
+	'QUISTE DE NABOTH' = '36'
+	'EVERSION GLANDULAR' = '37'
+	'CERVICOVAGINITIS' = '38'
+	'MOLUSCO CONTAGIOSO' = '39'
+
+
+Separa la columna BIOPSIA cada que encuentres una coma y realiza una busqueda de las sig palabras y asigna los valores de las palabras que encuentes en un arreglo llamado interpetacionBIOPSIA
+BIOPSIA
+	'NEGATIVO A MALIGNIDAD' = '40'
+	'LIBG (DISPLASIA LEVE)' = '41'
+	'LIAG (DISPLASIA MODERADA)' = '42'
+	'FRAGMENTO DE EJIDO ENDOCERVICAL' = '43'
+	'CERVICITIS CRONICA' = '44'
+	'EPITELIO ENDOCERVICAL CON METAPLASIA ESCAMOSA' = '45'
+
+
+
+
+
+
+def datoNum():
+    cur = mysql.connection.cursor()
+    cur.execute('SELECT * FROM pacientes')
+    registros = cur.fetchall()
+    cur.close()
+
+    # Listas para almacenar los datos transformados
+    nuevo_lista = []
+    interpetacionPreventix = []
+    interpetacionPCR_DE_VHP = []
+    interpetacionCITOLOGIA = []
+    interpetacionCOLPOSCOPIA = []
+    interpetacionBIOPSIA = []
+
+    for registro in registros:
+        nuevo_registro = []
+
+        for campo, valor in registro.items():
+            # Realizar la transformación de los valores
+            if isinstance(valor, str):
+                valor = valor.strip().lower()
+
+                # Separar la columna PREVENTIX por comas y asignar los valores correspondientes
+                if campo == 'PREVENTIX':
+                    palabras_clave = valor.split(',')
+                    for palabra in palabras_clave:
+                        if palabra.strip().lower() == 'negativo':
+                            interpetacionPreventix.join('0')
+                        elif palabra.strip().lower() == 'positivo':
+                            interpetacionPreventix.join('1')
+
+                # Separar la columna PCR_DE_VHP por comas y asignar los valores correspondientes
+                if campo == 'PCR_DE_VHP':
+                    palabras_clave = valor.split(',')
+                    for palabra in palabras_clave:
+                        if palabra.strip().lower() == 'positivo':
+                            interpetacionPCR_DE_VHP.join('2')
+                        elif palabra.strip().lower() == 'negativo':
+                            interpetacionPCR_DE_VHP.join('3')
+                        elif palabra.strip().lower() == 'serotipo 16':
+                            interpetacionPCR_DE_VHP.join('4')
+                        elif palabra.strip().lower() == 'serotipo 18':
+                            interpetacionPCR_DE_VHP.join('5')
+                        elif palabra.strip().lower() == 'pol de 13':
+                            interpetacionPCR_DE_VHP.join('6')
+
+                # Separar la columna CITOLOGIA por comas y asignar los valores correspondientes
+                if campo == 'CITOLOGIA':
+                    palabras_clave = valor.split(',')
+                    for palabra in palabras_clave:
+                        if palabra.strip().lower() == 'positiva':
+                            interpetacionCITOLOGIA.join('7')
+                        elif palabra.strip().lower() == 'negativa':
+                            interpetacionCITOLOGIA.join('8')
+                        elif palabra.strip().lower() == 'alteraciones celulares inflamatorias leves':
+                            interpetacionCITOLOGIA.join('9')
+                        elif palabra.strip().lower() == 'alteraciones celulares inflamatorias moderadas':
+                            interpetacionCITOLOGIA.join('10')
+                        elif palabra.strip().lower() == 'alteraciones celulares inflamatorias severas':
+                            interpetacionCITOLOGIA.join('11')
+                        elif palabra.strip().lower() == 'alteraciones inflamatorias secundarias a radiacion':
+                            interpetacionCITOLOGIA.join('12')
+                        elif palabra.strip().lower() == 'alteraciones inflamatorias secundarias a diu':
+                            interpetacionCITOLOGIA.join('13')
+                        elif palabra.strip().lower() == 'atrofia celular':
+                            interpetacionCITOLOGIA.join('14')
+                        elif palabra.strip().lower() == 'ascus':
+                            interpetacionCITOLOGIA.join('15')
+                        elif palabra.strip().lower() == 'asc-h':
+                            interpetacionCITOLOGIA.join('16')
+                        elif palabra.strip().lower() == 'cambios celulares sujestivos a vph':
+                            interpetacionCITOLOGIA.join('17')
+                        elif palabra.strip().lower() == 'lesion de bajo grado':
+                            interpetacionCITOLOGIA.join('18')
+                        elif palabra.strip().lower() == 'lesion de alto grado':
+                            interpetacionCITOLOGIA.join('19')
+                        elif palabra.strip().lower() == 'carcinoma de celulas escamosas':
+                            interpetacionCITOLOGIA.join('20')
+                        elif palabra.strip().lower() == 'celulas endometriales benignas post menopausia':
+                            interpetacionCITOLOGIA.join('21')
+                        elif palabra.strip().lower() == 'agus':
+                            interpetacionCITOLOGIA.join('22')
+                        elif palabra.strip().lower() == 'adenocarcinoma de origen endocervical':
+                            interpetacionCITOLOGIA.join('23')
+                        elif palabra.strip().lower() == 'adenocarcinoma de origen endometrial':
+                            interpetacionCITOLOGIA.join('24')
+                        elif palabra.strip().lower() == 'adenocarcinoma de origen no definido':
+                            interpetacionCITOLOGIA.join('25')
+
+                # Separar la columna COLPOSCOPIA por comas y asignar los valores correspondientes
+                if campo == 'COLPOSCOPIA':
+                    palabras_clave = valor.split(',')
+                    for palabra in palabras_clave:
+                        if palabra.strip().lower() == 'sin alteraciones':
+                            interpetacionCOLPOSCOPIA.join('26')
+                        elif palabra.strip().lower() == 'alteraciones inflamatorias':
+                            interpetacionCOLPOSCOPIA.join('27')
+                        elif palabra.strip().lower() == 'libg':
+                            interpetacionCOLPOSCOPIA.join('28')
+                        elif palabra.strip().lower() == 'liag':
+                            interpetacionCOLPOSCOPIA.join('29')
+                        elif palabra.strip().lower() == 'polipo cervical':
+                            interpetacionCOLPOSCOPIA.join('30')
+                        elif palabra.strip().lower() == 'metaplasia escamosa':
+                            interpetacionCOLPOSCOPIA.join('31')
+                        elif palabra.strip().lower() == 'atrofia severa':
+                            interpetacionCOLPOSCOPIA.join('32')
+                        elif palabra.strip().lower() == 'condilomatosis':
+                            interpetacionCOLPOSCOPIA.join('33')
+                        elif palabra.strip().lower() == 'probable liquen escleroso':
+                            interpetacionCOLPOSCOPIA.join('34')
+                        elif palabra.strip().lower() == 'atrofia vaginal':
+                            interpetacionCOLPOSCOPIA.join('35')
+                        elif palabra.strip().lower() == 'quiste de naboth':
+                            interpetacionCOLPOSCOPIA.join('36')
+                        elif palabra.strip().lower() == 'eversion glandular':
+                            interpetacionCOLPOSCOPIA.join('37')
+                        elif palabra.strip().lower() == 'cervicovaginitis':
+                            interpetacionCOLPOSCOPIA.join('38')
+                        elif palabra.strip().lower() == 'molusco contagioso':
+                            interpetacionCOLPOSCOPIA.join('39')
+
+                # Separar la columna BIOPSIA por comas y asignar los valores correspondientes
+                if campo == 'BIOPSIA':
+                    palabras_clave = valor.split(',')
+                    for palabra in palabras_clave:
+                        if palabra.strip().lower() == 'negativo a malignidad':
+                            interpetacionBIOPSIA.join('40')
+                        elif palabra.strip().lower() == 'libg (displasia leve)':
+                            interpetacionBIOPSIA.join('41')
+                        elif palabra.strip().lower() == 'liag (displasia moderada)':
+                            interpetacionBIOPSIA.join('42')
+                        elif palabra.strip().lower() == 'fragmento de ejido endocervical':
+                            interpetacionBIOPSIA.join('43')
+                        elif palabra.strip().lower() == 'cervicitis cronica':
+                            interpetacionBIOPSIA.join('44')
+                        elif palabra.strip().lower() == 'epitelio endocervical con metaplasia escamosa':
+                            interpetacionBIOPSIA.join('45')
+
+            nuevo_registro.join(valor)
+
+        nuevo_lista.join(nuevo_registro)
+
+    return nuevo_lista, interpetacionPreventix, interpetacionPCR_DE_VHP, interpetacionCITOLOGIA, interpetacionCOLPOSCOPIA, interpetacionBIOPSIA
+
+
+
+
+
+
+
+
+
+
+
+
+
+
