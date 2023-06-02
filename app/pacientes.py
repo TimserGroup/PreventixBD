@@ -359,12 +359,41 @@ def procesar():
     cur.close()
 
     data = [[consulta01, consulta02], [consulta03, consulta04]]
-    sensibilidad = consulta01 / (consulta01 + consulta03)
-    especificidad = consulta04 / (consulta02 + consulta04)
-    vpp = consulta01 / (consulta01 + consulta02)
-    vpn = consulta04 / (consulta03 + consulta04)
-    rpp = sensibilidad / (1 - especificidad)
-    rpn = (1 - sensibilidad) / especificidad
+    # sensibilidad = consulta01 / (consulta01 + consulta03)
+    # especificidad = consulta04 / (consulta02 + consulta04)
+    # vpp = consulta01 / (consulta01 + consulta02)
+    # vpn = consulta04 / (consulta03 + consulta04)
+    # rpp = sensibilidad / (1 - especificidad)
+    # rpn = (1 - sensibilidad) / especificidad
+    if consulta01 + consulta03 != 0:
+        sensibilidad = consulta01 / (consulta01 + consulta03)
+    else:
+        sensibilidad = 0.0
+
+    if consulta02 + consulta04 != 0:
+        especificidad = consulta04 / (consulta02 + consulta04)
+    else:
+        especificidad = 0.0
+
+    if consulta01 + consulta02 != 0:
+        vpp = consulta01 / (consulta01 + consulta02)
+    else:
+        vpp = 0.0
+
+    if consulta03 + consulta04 != 0:
+        vpn = consulta04 / (consulta03 + consulta04)
+    else:
+        vpn = 0.0
+
+    if 1 - especificidad != 0:
+        rpp = sensibilidad / (1 - especificidad)
+    else:
+        rpp = 0.0
+
+    if especificidad != 0:
+        rpn = (1 - sensibilidad) / especificidad
+    else:
+        rpn = 0.0
 
     # print(data)
     # Realizar la prueba de chi-cuadrado

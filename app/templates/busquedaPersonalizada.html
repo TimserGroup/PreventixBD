@@ -33,13 +33,21 @@
         <div class="table-users">
           <div class="header">{{ opcionr1 }} vs {{ opcionr2 }}</div>
           <table cellspacing="0">
+              <tr>
+              <th ></th>
+              <th ></th>
+              <th colspan="2">{{ opcionr2 }} </th>
+              <th></th>
+            </tr>
             <tr>
+              <th ></th>
               <th ></th>
               <th>+</th>
               <th>-</th>
               <th>Total</th>
             </tr>
             <tr>
+              <td rowspan="2"> {{ opcionr1 }} </td>
               <td> + </td>
               <td>{{ consulta01 }}</td>
               <td>{{ consulta02 }}</td>
@@ -52,6 +60,7 @@
               <td>{{ consulta03 + consulta04 }}</td>
             </tr>
             <tr>
+              <td></td>
               <td>Total</td>
                 <td>{{ consulta01 + consulta03 }}</td>
                 <td>{{ consulta02 + consulta04 }}</td>
