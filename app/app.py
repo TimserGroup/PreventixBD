@@ -1,9 +1,17 @@
-from flask import Blueprint, request, render_template, redirect, url_for, flash, app
+from flask import Blueprint, request, render_template, redirect, url_for, flash, app,Flask
 from db import mysql
 import numpy as np
 from scipy.stats import chi2_contingency
 
-pacientes = Blueprint('pacientes', __name__, template_folder='app/templates')
+# Application initializations
+app = Flask(__name__)
+
+# settings
+app.secret_key = "mysecretkey"
+
+
+pacientes = Blueprint(template_folder='app/templates')
+
 
 
 @pacientes.route('/')
