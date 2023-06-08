@@ -382,32 +382,32 @@ def procesar():
     # rpp = sensibilidad / (1 - especificidad)
     # rpn = (1 - sensibilidad) / especificidad
     if consulta01 + consulta03 != 0:
-        sensibilidad = (consulta01 / (consulta01 + consulta03))
+        sensibilidad = round(((consulta01 / (consulta01 + consulta03))*100),2)
     else:
         sensibilidad = 0.0
 
     if consulta02 + consulta04 != 0:
-        especificidad = (consulta04 / (consulta02 + consulta04))*100
+        especificidad = round(((consulta04 / (consulta02 + consulta04))*100),2)
     else:
         especificidad = 0.0
 
     if consulta01 + consulta02 != 0:
-        vpp = (consulta01 / (consulta01 + consulta02))*100
+        vpp = round(((consulta01 / (consulta01 + consulta02))*100),2)
     else:
         vpp = 0.0
 
     if consulta03 + consulta04 != 0:
-        vpn = (consulta04 / (consulta03 + consulta04))*100
+        vpn = round(((consulta04 / (consulta03 + consulta04))*100),2)
     else:
         vpn = 0.0
 
     if 1 - especificidad != 0:
-        rpp = (sensibilidad / (1 - especificidad))*100
+        rpp = round((sensibilidad / (1 - especificidad)),2)
     else:
         rpp = 0.0
 
     if especificidad != 0:
-        rpn = ((1 - sensibilidad) / especificidad)*100
+        rpn = round(((1 - sensibilidad) / especificidad),2)
     else:
         rpn = 0.0
 
