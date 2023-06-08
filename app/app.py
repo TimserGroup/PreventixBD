@@ -1,20 +1,35 @@
-from flask import Blueprint, request, render_template, redirect, url_for, flash, app,Flask
-from db import mysql
+from flask import Blueprint, request, render_template, redirect, url_for, flash, app, Flask
+
 import numpy as np
 from scipy.stats import chi2_contingency
+from flask_mysqldb import MySQL
+from dotenv import load_dotenv
+import os
 
-# Application initializations
+load_dotenv()  # take environment variables from .env.
 app = Flask(__name__)
+# Mysql Settings
+app.config['MYSQL_USER'] = os.getenv('MYSQL_USER') or 'sql9624432'
+app.config['MYSQL_PASSWORD'] = os.getenv('MYSQL_PASSWORD') or 'BNMN2TSHZL'
+app.config['MYSQL_HOST'] = os.getenv('MYSQL_HOST') or 'sql9.freemysqlhosting.net'
+app.config['MYSQL_DB'] = os.getenv('MYSQL_DB') or 'sql9624432'
+app.config['MYSQL_PORT'] = os.getenv('PORT') or 3306
+app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+
+# MySQL Connection
+mysql = MySQL(app)
+# Application initializations
+
 
 # settings
 app.secret_key = "mysecretkey"
 
 
-pacientes = Blueprint(template_folder='app/templates')
+
+pacientes = Blueprint('pacientes', __name__,template_folder='app/templates')
 
 
-
-@pacientes.route('/')
+@app.route('/')
 def Index():
     cur = mysql.connection.cursor()
     cur.execute('SELECT * FROM pacientes')
@@ -23,7 +38,7 @@ def Index():
     return render_template('index.html', pacientes=data)
 
 
-@pacientes.route('/add_paciente', methods=['POST'])
+@app.route('/add_paciente', methods=['POST'])
 def add_paciente():
     if request.method == 'POST':
         Folio = request.form['Folio']
@@ -100,7 +115,7 @@ def add_paciente():
             return redirect(url_for('pacientes.Index'))
 
 
-@pacientes.route('/edit/<id>', methods=['POST', 'GET'])
+@app.route('/edit/<id>', methods=['POST', 'GET'])
 def get_paciente(id):
     cur = mysql.connection.cursor()
     cur.execute('SELECT * FROM pacientes WHERE id = %s', id)
@@ -110,7 +125,7 @@ def get_paciente(id):
     return render_template('edit-patient.html', paciente=data[0])
 
 
-@pacientes.route('/update/<id>', methods=['POST'])
+@app.route('/update/<id>', methods=['POST'])
 def update_paciente(id):
     if request.method == 'POST':
         Folio = request.form['Folio']
@@ -256,7 +271,7 @@ def update_paciente(id):
         return redirect(url_for('pacientes.Index'))
 
 
-@pacientes.route('/busquedas', methods=['GET'])
+@app.route('/busquedas', methods=['GET'])
 def busquedas():
     cur = mysql.connection.cursor()
     cur.execute('''SELECT COUNT(*) 
@@ -284,7 +299,7 @@ def busquedas():
                            dataPrevBiopsiaN=dataPrevBiopsiaN, dataPrevBiopsia=dataPrevBiopsia)
 
 
-@pacientes.route('/delete/<string:id>', methods=['POST', 'GET'])
+@app.route('/delete/<string:id>', methods=['POST', 'GET'])
 def delete_paciente(id):
     cur = mysql.connection.cursor()
     cur.execute('DELETE FROM pacientes WHERE id = {0}'.format(id))
@@ -293,7 +308,7 @@ def delete_paciente(id):
     return redirect(url_for('pacientes.Index'))
 
 
-@pacientes.route('/agregarPaciente', methods=['POST'])
+@app.route('/agregarPaciente', methods=['POST'])
 def agregarPaciente():
     cur = mysql.connection.cursor()
     cur.execute('SELECT * FROM pacientes')
@@ -301,7 +316,8 @@ def agregarPaciente():
     cur.close()
     return render_template('agregarPaciente.html', pacientes=data)
 
-@pacientes.route('/cargarArchivo',methods=['GET', 'POST'])
+
+@app.route('/cargarArchivo', methods=['GET', 'POST'])
 def cargarArchivo():
     cur = mysql.connection.cursor()
     cur.execute('SELECT * FROM pacientes')
@@ -310,7 +326,7 @@ def cargarArchivo():
     return render_template('cargarArchivo.html', pacientes=data)
 
 
-@pacientes.route('/depurado', methods=['GET', 'POST'])
+@app.route('/depurado', methods=['GET', 'POST'])
 def depurado():
     cur = mysql.connection.cursor()
     cur.execute('SELECT * FROM pacientesdepurada')
@@ -328,7 +344,7 @@ def depurado():
     return render_template('beforeCalc.html')
 
 
-@pacientes.route('/procesar', methods=['GET', 'POST'])
+@app.route('/procesar', methods=['GET', 'POST'])
 def procesar():
     cur = mysql.connection.cursor()
     cur.execute('SELECT * FROM pacientesdepurada')
@@ -412,10 +428,10 @@ def procesar():
     return render_template('busquedaPersonalizada.html', vpp=vpp, vpn=vpn, rpp=rpp, rpn=rpn, sensibilidad=sensibilidad,
                            especificidad=especificidad, consulta01=consulta01, consulta02=consulta02,
                            consulta03=consulta03, consulta04=consulta04, chi2=chi2, p_value=p_value, opcion2=opcion2,
-                           opcion1=opcion1, opcionr1=opcionr1, opcionr2= opcionr2)
+                           opcion1=opcion1, opcionr1=opcionr1, opcionr2=opcionr2)
 
 
-@pacientes.route('/tablas')
+@app.route('/tablas')
 def Tablas():
     cur = mysql.connection.cursor()
     cur.execute('''SELECT ID, RESULTADO_NUMERICO_PREVENTIX, RESULTADO_NUMERICO_VPH, RESULTADO_NUMERICO_PAP, resultado_numerico_colposcopia, Resultado_num_biopsia
@@ -445,7 +461,5 @@ def Tablas():
                            pacientesBiopsia=data3)
 
 
-
 if __name__ == "__main__":
     app.run(port=5000, debug=False)
-
