@@ -28,7 +28,7 @@ def index():
     cur.execute('SELECT * FROM pacientes')
     data = cur.fetchall()
     cur.close()
-    return render_template('templates/index.html', pacientes=data)
+    return render_template('index.html', pacientes=data)
 
 @app.route('/add_paciente', methods=['POST'])
 def add_paciente():
@@ -114,7 +114,7 @@ def get_paciente(id):
     data = cur.fetchall()
     cur.close()
     print(data[0])
-    return render_template('templates/edit-patient.html', paciente=data[0])
+    return render_template('edit-patient.html', paciente=data[0])
 
 
 @app.route('/update/<id>', methods=['POST'])
@@ -287,7 +287,7 @@ def busquedas():
     dataPrevNBiopsiaN = cur.fetchall()[0]['COUNT(*)']
 
     cur.close()
-    return render_template('templates/graficas.html', dataPrevNBiopsiaN=dataPrevNBiopsiaN, dataPrevNBiopsia=dataPrevNBiopsia,
+    return render_template('graficas.html', dataPrevNBiopsiaN=dataPrevNBiopsiaN, dataPrevNBiopsia=dataPrevNBiopsia,
                            dataPrevBiopsiaN=dataPrevBiopsiaN, dataPrevBiopsia=dataPrevBiopsia)
 
 
@@ -306,7 +306,7 @@ def agregarPaciente():
     cur.execute('SELECT * FROM pacientes')
     data = cur.fetchall()
     cur.close()
-    return render_template('templates/agregarPaciente.html', pacientes=data)
+    return render_template('agregarPaciente.html', pacientes=data)
 
 
 @app.route('/cargarArchivo', methods=['GET', 'POST'])
@@ -315,7 +315,7 @@ def cargarArchivo():
     cur.execute('SELECT * FROM pacientes')
     data = cur.fetchall()
     cur.close()
-    return render_template('templates/cargarArchivo.html', pacientes=data)
+    return render_template('cargarArchivo.html', pacientes=data)
 
 
 @app.route('/depurado', methods=['GET', 'POST'])
@@ -333,7 +333,7 @@ def depurado():
     # print("Estadística de chi-cuadrado:", chi2)
     # print("Valor p:", p_value)
 
-    return render_template('templates/beforeCalc.html')
+    return render_template('beforeCalc.html')
 
 
 @app.route('/procesar', methods=['GET', 'POST'])
@@ -417,7 +417,7 @@ def procesar():
 
     # Realizar el cálculo para obtener el valor P_value
 
-    return render_template('templates/busquedaPersonalizada.html', vpp=vpp, vpn=vpn, rpp=rpp, rpn=rpn, sensibilidad=sensibilidad,
+    return render_template('busquedaPersonalizada.html', vpp=vpp, vpn=vpn, rpp=rpp, rpn=rpn, sensibilidad=sensibilidad,
                            especificidad=especificidad, consulta01=consulta01, consulta02=consulta02,
                            consulta03=consulta03, consulta04=consulta04, chi2=chi2, p_value=p_value, opcion2=opcion2,
                            opcion1=opcion1, opcionr1=opcionr1, opcionr2=opcionr2)
@@ -449,7 +449,7 @@ def Tablas():
     data2 = cur.fetchall()
     # print(data2)
     cur.close()
-    return render_template('templates/tablasLimpias.html', pacientesPREVENTIX=data, pacientesPREVVPH=data1, pacientesVPH=data2,
+    return render_template('tablasLimpias.html', pacientesPREVENTIX=data, pacientesPREVVPH=data1, pacientesVPH=data2,
                            pacientesBiopsia=data3)
 
 
