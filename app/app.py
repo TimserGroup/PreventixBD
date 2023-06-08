@@ -348,7 +348,7 @@ def procesar():
     opciones = {
         'RESULTADO_NUMERICO_PREVENTIX': 'PREVENTIX',
         'RESULTADO_NUMERICO_VPH': 'VPH',
-        'RESULTADO_NUMERICO_PAP': 'Papanicolaou',
+        'RESULTADO_NUMERICO_PAP': 'Citología Líquida',
         'Resultado_num_biopsia': 'Biopsia',
         'resultado_numerico_colposcopia': 'Colposcopia'
     }
@@ -382,32 +382,32 @@ def procesar():
     # rpp = sensibilidad / (1 - especificidad)
     # rpn = (1 - sensibilidad) / especificidad
     if consulta01 + consulta03 != 0:
-        sensibilidad = consulta01 / (consulta01 + consulta03)
+        sensibilidad = (consulta01 / (consulta01 + consulta03))
     else:
         sensibilidad = 0.0
 
     if consulta02 + consulta04 != 0:
-        especificidad = consulta04 / (consulta02 + consulta04)
+        especificidad = (consulta04 / (consulta02 + consulta04))*100
     else:
         especificidad = 0.0
 
     if consulta01 + consulta02 != 0:
-        vpp = consulta01 / (consulta01 + consulta02)
+        vpp = (consulta01 / (consulta01 + consulta02))*100
     else:
         vpp = 0.0
 
     if consulta03 + consulta04 != 0:
-        vpn = consulta04 / (consulta03 + consulta04)
+        vpn = (consulta04 / (consulta03 + consulta04))*100
     else:
         vpn = 0.0
 
     if 1 - especificidad != 0:
-        rpp = sensibilidad / (1 - especificidad)
+        rpp = (sensibilidad / (1 - especificidad))*100
     else:
         rpp = 0.0
 
     if especificidad != 0:
-        rpn = (1 - sensibilidad) / especificidad
+        rpn = ((1 - sensibilidad) / especificidad)*100
     else:
         rpn = 0.0
 
