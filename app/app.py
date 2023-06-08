@@ -31,11 +31,8 @@ pacientes = Blueprint('pacientes', __name__,template_folder='app/templates')
 
 @app.route('/')
 def Index():
-    cur = mysql.connection.cursor()
-    cur.execute('SELECT * FROM pacientes')
-    data = cur.fetchall()
-    cur.close()
-    return render_template('index.html', pacientes=data)
+
+    return "<h1>Corriendo</h1>"
 
 if __name__ == "__main__":
     app.run(port=5000, debug=True)
