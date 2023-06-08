@@ -11,7 +11,7 @@ cnx = mysql.connector.connect(
 )
 cursor = cnx.cursor()
 
-BaseDatos = pd.read_csv('BaseDatos.csv', index_col=False)
+BaseDatos = pd.read_csv('BaseDatosPacientesBinario.csv', index_col=False)
 BaseDatos.head()
 print(BaseDatos)
 
