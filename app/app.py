@@ -1,4 +1,4 @@
-from flask import Blueprint, request, render_template, redirect, url_for, flash
+from flask import Blueprint, request, render_template, redirect, url_for, flash, app
 from db import mysql
 import numpy as np
 from scipy.stats import chi2_contingency
@@ -435,3 +435,9 @@ def Tablas():
     cur.close()
     return render_template('tablasLimpias.html', pacientesPREVENTIX=data, pacientesPREVVPH=data1, pacientesVPH=data2,
                            pacientesBiopsia=data3)
+
+
+
+if __name__ == "__main__":
+    app.run(port=5000, debug=False)
+
