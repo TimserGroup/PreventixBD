@@ -417,7 +417,7 @@ def procesar():
     # print(data)
     # Realizar la prueba de chi-cuadrado
     chi2, p_value, dof, expected = chi2_contingency(data, correction=False)
-    p_value = round(p_value, 2)
+    p_value = round(p_value, 4)
 
     # Realizar el cálculo para obtener el valor P_value
 
