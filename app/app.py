@@ -382,7 +382,7 @@ def procesar():
     # rpp = sensibilidad / (1 - especificidad)
     # rpn = (1 - sensibilidad) / especificidad
     if consulta01 + consulta03 != 0:
-        sensibilidad = round(((consulta01 / (consulta01 + consulta03))*100),2)
+        sensibilidad = round((consulta01 / (consulta01 + consulta03)),2)
     else:
         sensibilidad = 0.0
 
