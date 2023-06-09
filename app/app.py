@@ -22,6 +22,7 @@ mysql = MySQL(app)
 
 pacientes = Blueprint('pacientes', __name__, template_folder='app/templates')
 
+
 @app.route('/')
 def index():
     cur = mysql.connection.cursor()
@@ -29,6 +30,7 @@ def index():
     data = cur.fetchall()
     cur.close()
     return render_template('index.html', pacientes=data)
+
 
 @app.route('/add_paciente', methods=['POST'])
 def add_paciente():
@@ -382,39 +384,40 @@ def procesar():
     # rpp = sensibilidad / (1 - especificidad)
     # rpn = (1 - sensibilidad) / especificidad
     if consulta01 + consulta03 != 0:
-        sensibilidad = round(((consulta01 / (consulta01 + consulta03))*100),2)
+        sens = (consulta01 / (consulta01 + consulta03))*100
+        sensibilidad = round(sens, 2)
     else:
         sensibilidad = 0.0
 
     if consulta02 + consulta04 != 0:
-        especificidad = round(((consulta04 / (consulta02 + consulta04))*100),2)
+        especificidad = round(((consulta04 / (consulta02 + consulta04)) * 100), 2)
     else:
         especificidad = 0.0
 
     if consulta01 + consulta02 != 0:
-        vpp = round(((consulta01 / (consulta01 + consulta02))*100),2)
+        vpp = round(((consulta01 / (consulta01 + consulta02)) * 100), 2)
     else:
         vpp = 0.0
 
     if consulta03 + consulta04 != 0:
-        vpn = round(((consulta04 / (consulta03 + consulta04))*100),2)
+        vpn = round(((consulta04 / (consulta03 + consulta04)) * 100), 2)
     else:
         vpn = 0.0
 
     if 1 - especificidad != 0:
-        rpp = round((sensibilidad / (1 - especificidad)),2)
+        rpp = round((sensibilidad / (1 - especificidad)), 2)
     else:
         rpp = 0.0
 
     if especificidad != 0:
-        rpn = round(((1 - sensibilidad) / especificidad),2)
+        rpn = round(((1 - sensibilidad) / especificidad), 2)
     else:
         rpn = 0.0
 
     # print(data)
     # Realizar la prueba de chi-cuadrado
     chi2, p_value, dof, expected = chi2_contingency(data, correction=False)
-    p_value = round(p_value,2)
+    p_value = round(p_value, 2)
 
     # Realizar el cálculo para obtener el valor P_value
 
