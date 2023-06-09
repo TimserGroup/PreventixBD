@@ -382,7 +382,7 @@ def procesar():
     # rpp = sensibilidad / (1 - especificidad)
     # rpn = (1 - sensibilidad) / especificidad
     if consulta01 + consulta03 != 0:
-        sensibilidad = round((consulta01 / (consulta01 + consulta03)),2)
+        sensibilidad = round(((consulta01 / (consulta01 + consulta03))*100),2)
     else:
         sensibilidad = 0.0
 
@@ -414,6 +414,7 @@ def procesar():
     # print(data)
     # Realizar la prueba de chi-cuadrado
     chi2, p_value, dof, expected = chi2_contingency(data, correction=False)
+    p_value = round(p_value,2)
 
     # Realizar el cálculo para obtener el valor P_value
 
