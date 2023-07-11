@@ -32,10 +32,16 @@ def index():
     data = cur.fetchall()
     cur.close()
     return render_template('index.html', pacientes=data)
-@app.route('/add_paciente', methods=['POST'])
+
+
+@app.route('/addP', methods=['GET'])
+def show_add_patient_form():
+    return render_template('agregarPaciente.html')
+
+# Ruta para procesar la solicitud de agregar paciente
+@app.route('/add_paciente/', methods=['POST', 'GET'])
 def add_paciente():
     if request.method == 'POST':
-        IDBD = request.form['IDBD']
         Nombre = request.form['Nombre']
         PREVENTIX = request.form['PREVENTIX']
         RESULTADO_NUMERICO_PREVENTIX = request.form['RESULTADO_NUMERICO_PREVENTIX']
@@ -51,37 +57,18 @@ def add_paciente():
 
         try:
             cur = mysql.connection.cursor()
-            cur.execute('''INSERT INTO pacientesdepurada (IDBD, Nombre, PREVENTIX, RESULTADO_NUMERICO_PREVENTIX,
-                            Resultado_PCR_VPH, RESULTADO_NUMERICO_VPH, Resultado_Papanicolaou, ID, RESULTADO_NUMERICO_PAP,
-                            Resultado_de_colposcopio, resultado_numerico_colposcopia, Resultado_biopsia_de_cervix,
-                            Resultado_num_biopsia)
-                            VALUES (%(IDBD)s, %(Nombre)s, %(PREVENTIX)s, %(RESULTADO_NUMERICO_PREVENTIX)s,
-                            %(Resultado_PCR_VPH)s, %(RESULTADO_NUMERICO_VPH)s, %(Resultado_Papanicolaou)s, %(ID)s,
-                            %(RESULTADO_NUMERICO_PAP)s, %(Resultado_de_colposcopio)s, %(resultado_numerico_colposcopia)s,
-                            %(Resultado_biopsia_de_cervix)s, %(Resultado_num_biopsia)s)''',
-                        {
-                            'IDBD': IDBD,
-                            'Nombre': Nombre,
-                            'PREVENTIX': PREVENTIX,
-                            'RESULTADO_NUMERICO_PREVENTIX': RESULTADO_NUMERICO_PREVENTIX,
-                            'Resultado_PCR_VPH': Resultado_PCR_VPH,
-                            'RESULTADO_NUMERICO_VPH': RESULTADO_NUMERICO_VPH,
-                            'Resultado_Papanicolaou': Resultado_Papanicolaou,
-                            'ID': ID,
-                            'RESULTADO_NUMERICO_PAP': RESULTADO_NUMERICO_PAP,
-                            'Resultado_de_colposcopio': Resultado_de_colposcopio,
-                            'resultado_numerico_colposcopia': resultado_numerico_colposcopia,
-                            'Resultado_biopsia_de_cervix': Resultado_biopsia_de_cervix,
-                            'Resultado_num_biopsia': Resultado_num_biopsia
-                        })
-
-            mysql.connection.commit()
+            cur.execute(
+                'INSERT INTO pacientesdepurada (Nombre, PREVENTIX, RESULTADO_NUMERICO_PREVENTIX, Resultado_PCR_VPH, RESULTADO_NUMERICO_VPH, Resultado_Papanicolaou, ID, RESULTADO_NUMERICO_PAP, Resultado_de_colposcopio, resultado_numerico_colposcopia, Resultado_biopsia_de_cervix, Resultado_num_biopsia) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)',
+                (Nombre, PREVENTIX, RESULTADO_NUMERICO_PREVENTIX, Resultado_PCR_VPH, RESULTADO_NUMERICO_VPH, Resultado_Papanicolaou, ID, RESULTADO_NUMERICO_PAP, Resultado_de_colposcopio, resultado_numerico_colposcopia, Resultado_biopsia_de_cervix, Resultado_num_biopsia)
+            )
+            cur.connection.commit()
             flash('Paciente añadido correctamente')
-            return redirect(url_for('pacientes.Index'))
+            return redirect(url_for('show_add_patient_form'))
         except Exception as e:
-            flash(e.args[1])
-            return redirect(url_for('pacientes.Index'))
+            flash(str(e))
+            return redirect(url_for('show_add_patient_form'))
 
+    return render_template('agregarPaciente.html')
 
 @app.route('/edit/<id>', methods=['POST', 'GET'])
 def get_paciente(id):
@@ -94,7 +81,7 @@ def get_paciente(id):
     return render_template('edit-patient.html', patient=data[0])
 
 
-@app.route('/update/<id>', methods=['POST'])
+@app.route('/update/<int:id>', methods=['POST'])
 def update_paciente(id):
     if request.method == 'POST':
         IDBD = request.form['IDBD']
@@ -143,13 +130,13 @@ def update_paciente(id):
                         'Resultado_de_colposcopio': Resultado_de_colposcopio,
                         'resultado_numerico_colposcopia': resultado_numerico_colposcopia,
                         'Resultado_biopsia_de_cervix': Resultado_biopsia_de_cervix,
-                        'Resultado_num_biopsia': Resultado_num_biopsia,
-                        'id': id
+                        'Resultado_num_biopsia': Resultado_num_biopsia
                     })
 
         flash('Paciente actualizado correctamente')
         mysql.connection.commit()
         return redirect(url_for('pacientes.Index'))
+
 
 #
 # @app.route('/add_paciente', methods=['POST'])
@@ -390,22 +377,22 @@ def busquedas():
     cur = mysql.connection.cursor()
     cur.execute('''SELECT COUNT(*) 
                     FROM pacientesdepurada
-                    WHERE PREVENTIX = 'positivo' AND Resultado_biopsia_de_cervix != 'NO SE REALIZO' ''')
+                    WHERE RESULTADO_NUMERICO_PREVENTIX = '101' AND RESULTADO_NUMERICO_PREVENTIX != '102' ''')
     dataPrevBiopsia = cur.fetchall()[0]['COUNT(*)']
 
     cur.execute('''SELECT COUNT(*) 
                         FROM pacientesdepurada
-                        WHERE PREVENTIX = 'positivo' AND Resultado_biopsia_de_cervix = 'NO SE REALIZO' ''')
+                        WHERE RESULTADO_NUMERICO_PREVENTIX = '101' AND Resultado_num_biopsia = '102' ''')
     dataPrevBiopsiaN = cur.fetchall()[0]['COUNT(*)']
 
     cur.execute('''SELECT COUNT(*) 
                         FROM pacientesdepurada
-                        WHERE PREVENTIX = 'negativo' AND Resultado_biopsia_de_cervix != 'NO SE REALIZO' ''')
+                        WHERE RESULTADO_NUMERICO_PREVENTIX = '101' AND Resultado_num_biopsia != '102' ''')
     dataPrevNBiopsia = cur.fetchall()[0]['COUNT(*)']
 
     cur.execute('''SELECT COUNT(*) 
                             FROM pacientesdepurada
-                            WHERE PREVENTIX = 'negativo' AND Resultado_biopsia_de_cervix = 'NO SE REALIZO' ''')
+                            WHERE RESULTADO_NUMERICO_PREVENTIX = '100' AND Resultado_biopsia_de_cervix = '102' ''')
     dataPrevNBiopsiaN = cur.fetchall()[0]['COUNT(*)']
 
     cur.close()
@@ -416,10 +403,10 @@ def busquedas():
 @app.route('/delete/<string:id>', methods=['POST', 'GET'])
 def delete_paciente(id):
     cur = mysql.connection.cursor()
-    cur.execute('DELETE FROM pacientes WHERE id = {0}'.format(id))
+    cur.execute('DELETE FROM pacientesdepurada WHERE id = {0}'.format(id))
     mysql.connection.commit()
     flash('Paciente borrado correctamente')
-    return redirect(url_for('pacientes.Index'))
+    return redirect(url_for('index.html'))
 
 
 @app.route('/agregarPaciente', methods=['POST'])
@@ -504,7 +491,7 @@ def procesar():
     # rpp = sensibilidad / (1 - especificidad)
     # rpn = (1 - sensibilidad) / especificidad
     if consulta01 + consulta03 != 0:
-        sens = (consulta01 / (consulta01 + consulta03))*100
+        sens = (consulta01 / (consulta01 + consulta03)) * 100
         sensibilidad = round(sens, 2)
     else:
         sensibilidad = 0.0
@@ -617,9 +604,8 @@ def export_excel():
     response.headers['Content-Disposition'] = 'attachment; filename=pacientes_preventix.xlsx'
     response.headers['Content-type'] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
 
-
-
     return response
+
 
 @app.route('/export_excelCompleto')
 def export_excelCompleto():
@@ -656,8 +642,6 @@ def export_excelCompleto():
     response = make_response(excel_data)
     response.headers['Content-Disposition'] = 'attachment; filename=pacientes.xlsx'
     response.headers['Content-type'] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-
-
 
     return response
 
