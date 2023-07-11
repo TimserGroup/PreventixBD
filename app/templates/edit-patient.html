@@ -6,196 +6,43 @@
       <div class="card card-body">
         <form action="/update/{{patient.id}}" method="POST">
           <div class="form-group">
-            <input type="text" name="fullname" value="{{patient.fullname}}" class="form-control">
+            <input type="text" name="IDBD" value="{{patient.ID}}" class="form-control">
           </div>
           <div class="form-group">
-            <input type="text" name="phone" value=" {{patients.folio}} " class="form-control">
+            <input type="text" name="Nombre" value="{{patient.Nombre}}" class="form-control">
           </div>
           <div class="form-group">
-            <input type="text" name="email" value=" {{patients.idForm}} " class="form-control">
+            <input type="text" name="PREVENTIX" value="{{patient.PREVENTIX}}" class="form-control">
           </div>
-            <div class="form-group">
-            <input type="text" name="email" value=" {{patients.nombre}} " class="form-control">
+          <div class="form-group">
+            <input type="text" name="RESULTADO_NUMERICO_PREVENTIX" value="{{patient.RESULTADO_NUMERICO_PREVENTIX}}" class="form-control">
           </div>
-            <div class="form-group">
-            <input type="text" name="email" value=" {{patients.fecha_de_nacimiento}} " class="form-control">
+          <div class="form-group">
+            <input type="text" name="Resultado_PCR_VPH" value="{{patient.Resultado_PCR_VPH}}" class="form-control">
           </div>
-            <div class="form-group">
-            <input type="text" name="email" value=" {{patients.edad}} " class="form-control">
+          <div class="form-group">
+            <input type="text" name="RESULTADO_NUMERICO_VPH" value="{{patient.RESULTADO_NUMERICO_VPH}}" class="form-control">
           </div>
-            <div class="form-group">
-            <input type="text" name="email" value=" {{patients.peso}} " class="form-control">
+          <div class="form-group">
+            <input type="text" name="Resultado_Papanicolaou" value="{{patient.Resultado_Papanicolaou}}" class="form-control">
           </div>
-            <div class="form-group">
-            <input type="text" name="email" value=" {{patients.talla}} " class="form-control">
+          <div class="form-group">
+            <input type="text" name="ID" value="{{patient.ID}}" class="form-control">
           </div>
-            <div class="form-group">
-            <input type="text" name="email" value=" {{patients.IMC}} " class="form-control">
+          <div class="form-group">
+            <input type="text" name="RESULTADO_NUMERICO_PAP" value="{{patient.RESULTADO_NUMERICO_PAP}}" class="form-control">
           </div>
-            <div class="form-group">
-            <input type="text" name="email" value=" {{patients.TRATAMIENTO_HORMONAL_ACTUAL}} " class="form-control">
+          <div class="form-group">
+            <input type="text" name="Resultado_de_colposcopio" value="{{patient.Resultado_de_colposcopio}}" class="form-control">
           </div>
-            <div class="form-group">
-            <input type="text" name="email" value=" {{patients.VACUNAS}} " class="form-control">
+          <div class="form-group">
+            <input type="text" name="resultado_numerico_colposcopia" value="{{patient.resultado_numerico_colposcopia}}" class="form-control">
           </div>
-            <div class="form-group">
-            <input type="text" name="email" value=" {{patients.VACUNAS}} " class="form-control">
+          <div class="form-group">
+            <input type="text" name="Resultado_biopsia_de_cervix" value="{{patient.Resultado_biopsia_de_cervix}}" class="form-control">
           </div>
-            <div class="form-group">
-            <input type="text" name="email" value=" {{patients.CANCER_ATX}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value=" {{patients.DIABETES}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value=" {{patients.HIPERTENSION}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value=" {{patients.TIROIDEO}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value=" {{patients.INMUNOLOGICO}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value=" {{patients.VIH}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value=" {{patients.ITS}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value=" {{patients.VPH}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value=" {{patients.FUMA}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value=" {{patients.DROGAS}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value=" {{patients.IVSA}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value=" {{patients.NPS}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value=" {{patients.ANO_DEL_ULTIMO_PAP}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value=" {{patients.MPF}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value=" {{patients.gestas}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value=" {{patients.INTERPRETACION_PREVENTIX_FINAL}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value=" {{patients.VPH2}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value=" {{patients.gen}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value=" {{patients.citologia_resultado}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value=" {{patients.trichomona_Vaginalis}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value=" {{patients.microorganismos_fungicos_candida_spp}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value=" {{patients.vaginosis_bacteriana}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value=" {{patients.Bacterias_compatibles_con_Actinomyces_spp}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value=" {{patients.Cambios_celulares_compatibles_con_Herpes}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value=" {{patients.Alteraciones_celulares_inflamatorias}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value=" {{patients.alteraciones_celulares_secundarias_a_radiacion}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value=" {{patients.alteraciones_celulares_secundarias_a_DIU}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value=" {{patients.Atrofia_celular}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value=" {{patients.celulas_escamosas_ASC_US}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value=" {{patients.celulas_escamosas_ASC_H}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value="{{patient.email}}" class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value="{{patients.cambios_celulares_vph}}" class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value="{{patients.lesion_intraepitelial_displasia_leve}}" class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value=" {{patients.Lesion_intraepitelial_displasia_moderada}}" class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value="{{patients.carcinoma_de_celulas_escamosas}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value=" {{patients.celulas_endometriales_benignas_en_postmenopausia}}" class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value="{{patients.celulas_glandulares_atipicas_AGUS}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value="{{patients.Adenocarcinoma_de_origen_endocervical}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value="{{patients.Adenocarcinoma_de_origen_endometrial}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value="{{patients.Adenocarcinoma_de_origen_no_definido}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value="{{patients.colposcopia}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value="{{patients.cervix}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value="{{patients.Zona_de_transformacion}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value="{{patients.Superficie}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value="{{patients.Superficie}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value="{{patients.Bordes}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value="{{patients.Epitelio_Acetoblanco}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value=" {{patients.Prueba_de_Shiller}}" class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value="{{patients.Diagnostico_Colposcopico}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value="{{patients.Otros}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value="{{patients.Biopsia}} " class="form-control">
-          </div>
-            <div class="form-group">
-            <input type="text" name="email" value=" {{patients.Diagnostico}}" class="form-control">
+          <div class="form-group">
+            <input type="text" name="Resultado_num_biopsia" value="{{patient.Resultado_num_biopsia}}" class="form-control">
           </div>
           <div class="form-group">
             <button type="submit" class="btn btn-primary btn-block">
