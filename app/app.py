@@ -2,6 +2,7 @@ from flask import Blueprint, request, render_template, redirect, url_for, flash,
 import numpy as np
 import pandas as pd
 from scipy.stats import chi2_contingency
+from scipy.stats import chi2
 from flask_mysqldb import MySQL
 from dotenv import load_dotenv
 import os
@@ -253,55 +254,21 @@ def procesar():
 
     cur.close()
 
-    # <td> + </td>#
-    # <td>{{ consulta01 }}</td>#
-    # <td>{{ consulta02 }}</td>#
-    # <td>{{ consulta01 + consulta02 }}</td>#
-
-    # <th> - </th>#
-    # <td>{{ consulta03 }} </td>#
-    # <td>{{ consulta04 }}</td>#
-    # <td>{{ consulta03 + consulta04 }}</td>#
-
-    # sample_mean: Proporción de éxito observada en la muestra
-    sample_mean = (consulta01 + consulta02) / (consulta01 + consulta02 + consulta03 + consulta04)
-
-    # population_mean: Proporción de éxito esperada en la población
-    population_mean = sample_mean
-
-    # sample_std: Desviación estándar de la muestra
-    sample_std = np.sqrt((sample_mean * (1 - sample_mean)) / (consulta01 + consulta02 + consulta03 + consulta04 - 1))
-
-    # sample_size: Tamaño de la muestra
-    sample_size = consulta01 + consulta02 + consulta03 + consulta04
-
-    # sample_mean: Es la media de la muestra. Representa el promedio de los valores #observados en la muestra de pacientes.
-    #sample_mean = consulta01 / (consulta01 + consulta02)
-    # population_mean: Es la media de la población. Representa el valor promedio esperado en #la población de pacientes.
-    #population_mean = (consulta01 + consulta02) / 2
-    # sample_std: Es la desviación estándar de la muestra. Representa la variabilidad de los #valores observados en la muestra de pacientes.
-    #sample_std = np.sqrt((consulta01  * consulta02 ) / (consulta01 + consulta02 - 1))
-    # sample_size: Es el tamaño de la muestra. Indica la cantidad de pacientes en la muestra #utilizada para realizar el cálculo.
-    #sample_size = consulta01 + consulta02
-    # alpha: Es el nivel de significancia. Representa la probabilidad de cometer un error de #tipo I, es decir, rechazar incorrectamente la hipótesis nula.
-    alpha = 0.05
 
 
-    # Calcula la estadística de prueba z
-    z = (sample_mean - population_mean) / (sample_std / np.sqrt(sample_size))
-    print("z value", z)
 
-    # Calcula el valor crítico z correspondiente al nivel de significancia
-    z_critical = norm.ppf(1 - alpha)
-    print("z_critical", z)
 
-    # Calcula el poder de la prueba
-    beta = norm.cdf(z_critical - (sample_mean - population_mean) / (sample_std / np.sqrt(sample_size)))
-    print("beta value", beta)
-    power = 1 - beta
-    print("power value", power)
 
-    ####
+
+    # # Valores de la tabla 2x2
+    # c1 = 15  # Resultados concordantes
+    # c2 = 21  # Resultados discordantes
+
+    # Calcula el valor p y el poder de la prueba
+    p_value1, power = mcnemar_test(consulta01, consulta02)
+
+    # print("Valor p:", p_value)
+    # print("Poder de la prueba:", power)
 
     data = [[consulta01, consulta02], [consulta03, consulta04]]
     # sensibilidad = consulta01 / (consulta01 + consulta03)
@@ -351,9 +318,19 @@ def procesar():
     return render_template('busquedaPersonalizada.html', vpp=vpp, vpn=vpn, rpp=rpp, rpn=rpn, sensibilidad=sensibilidad,
                            especificidad=especificidad, consulta01=consulta01, consulta02=consulta02,
                            consulta03=consulta03, consulta04=consulta04, chi2=chi2, p_value=p_value, opcion2=opcion2,
-                           opcion1=opcion1, opcionr1=opcionr1, opcionr2=opcionr2)
+                           opcion1=opcion1, opcionr1=opcionr1, opcionr2=opcionr2, power=power, p_value1 = p_value1)
 
+def mcnemar_test(c1, c2):
+    # Calcula los valores necesarios para la prueba de McNemar
+    n = c1 + c2  # Tamaño de la muestra
+    b = min(c1, c2)  # Número de casos discordantes
+    chi2_value = (b - abs(c1 - c2) / 2) ** 2 / (c1 + c2)  # Valor de chi-cuadrado
+    p_value = 1 - chi2.cdf(chi2_value, 1)  # Valor p
 
+    # Calcula el poder de la prueba
+    power = 1 - chi2.cdf(chi2.ppf(0.95, 1) - np.sqrt(n) * abs(c1 - c2) / (c1 + c2), 1)
+
+    return p_value, power
 @app.route('/tablas')
 def Tablas():
     cur = mysql.connection.cursor()
