@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 from scipy.stats import chi2_contingency
 from scipy.stats import chi2
+from scipy.stats import binom
 from flask_mysqldb import MySQL
 from dotenv import load_dotenv
 import os
@@ -330,8 +331,13 @@ def mcnemar_test(c1, c2):
     p_value = 1 - chi2.cdf(chi2_value, 1)  # Valor p
 
     # Calcula el poder de la prueba
-    power = 1 - chi2.cdf(chi2.ppf(0.95, 1), 1) + chi2.cdf(chi2.ppf(0.95, 1) - np.sqrt(n) * abs(b) / np.sqrt(c1 + c2), 1)
+    #power = 1 - chi2.cdf(chi2.ppf(0.95, 1), 1) + chi2.cdf(chi2.ppf(0.95, 1) - np.sqrt(n) * abs(b) / np.sqrt(c1 + c2), 1)
 
+
+    p_value = 1 - chi2.cdf(chi2_value, 1)  # Valor p
+
+    # Calcula el poder de la prueba
+    power = 1 - binom.cdf(c1, n, 0.5) - binom.cdf(n - c2 - 1, n, 0.5)
     return p_value, power
 
 @app.route('/tablas')
