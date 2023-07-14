@@ -265,7 +265,9 @@ def procesar():
     # c2 = 21  # Resultados discordantes
 
     # Calcula el valor p y el poder de la prueba
-    p_value1, power = mcnemar_test(consulta01, consulta02)
+    p_value1, power = mcnemar_test(consulta02, consulta03)
+    # print(consulta02)
+    # print(consulta03)
 
     # print("Valor p:", p_value)
     # print("Poder de la prueba:", power)
@@ -323,14 +325,15 @@ def procesar():
 def mcnemar_test(c1, c2):
     # Calcula los valores necesarios para la prueba de McNemar
     n = c1 + c2  # Tamaño de la muestra
-    b = min(c1, c2)  # Número de casos discordantes
-    chi2_value = (b - abs(c1 - c2) / 2) ** 2 / (c1 + c2)  # Valor de chi-cuadrado
+    b = c2 - c1  # Número de casos discordantes
+    chi2_value = b ** 2 / (c1 + c2)  # Valor de chi-cuadrado
     p_value = 1 - chi2.cdf(chi2_value, 1)  # Valor p
 
     # Calcula el poder de la prueba
-    power = 1 - chi2.cdf(chi2.ppf(0.95, 1) - np.sqrt(n) * abs(c1 - c2) / (c1 + c2), 1)
+    power = 1 - chi2.cdf(chi2.ppf(0.95, 1), 1) + chi2.cdf(chi2.ppf(0.95, 1) - np.sqrt(n) * abs(b) / np.sqrt(c1 + c2), 1)
 
     return p_value, power
+
 @app.route('/tablas')
 def Tablas():
     cur = mysql.connection.cursor()
