@@ -1,7 +1,7 @@
 {% extends "layout.html" %} {% block body %}
 
         <div class="container" style="padding-top: 150px; ">
-  <form method="POST" action="/procesar">
+  <form method="POST" action="/procesarPotencia">
     <div class="row">
       <div class="col-sm">
         <select name="opcion1" class="select">
@@ -21,7 +21,7 @@
         </select>
       </div>
       <div class="col-sm">
-        <input type="submit" value="Calcular Pruebas" class="">
+        <input type="submit" value="Calcular Potencia" class="">
       </div>
     </div>
   </form>
@@ -113,5 +113,3 @@
 
 
 {% endblock %}
-
-

@@ -6,6 +6,7 @@ from flask_mysqldb import MySQL
 from dotenv import load_dotenv
 import os
 from io import BytesIO
+from scipy.stats import norm
 
 load_dotenv()
 
@@ -138,239 +139,6 @@ def update_paciente(id):
         return redirect(url_for('pacientes.Index'))
 
 
-#
-# @app.route('/add_paciente', methods=['POST'])
-# def add_paciente():
-#     if request.method == 'POST':
-#         Folio = request.form['Folio']
-#         IDForm = request.form['IDForm']
-#         Nombre = request.form['Nombre']
-#         FechaNacimiento = request.form['FechaNacimiento']
-#         Edad = int(request.form['Edad'])
-#         Peso = float(request.form['Peso'])
-#         Talla = float(request.form['Talla'])
-#         IMC = float(request.form['IMC'])
-#         TRATAMIENTO_HORMONAL_ACTUAL = request.form['TRATAMIENTO_HORMONAL_ACTUAL']
-#         VACUNAS = request.form['VACUNAS']
-#         CANCER_ATX = request.form['CANCER_ATX']
-#         DIABETES = request.form['DIABETES']
-#         HIPERTENSION = request.form['HIPERTENSION']
-#         TIROIDEO = request.form['TIROIDEO']
-#         INMUNOLOGICO = request.form['INMUNOLOGICO']
-#         VIH = request.form['VIH']
-#         ITS = request.form['ITS']
-#         VPH = request.form['VPH']
-#         FUMA = request.form['FUMA']
-#         DROGAS = request.form['DROGAS']
-#         IVSA = request.form['IVSA']
-#         NPS = request.form['NPS']
-#         ANO_DEL_ULTIMO_PAP = request.form['ANO_DEL_ULTIMO_PAP']
-#         MPF = request.form['MPF']
-#         Gestas = int(request.form['Gestas'])
-#         INTERPRETACION_PREVENTIX_FINAL = request.form['INTERPRETACION_PREVENTIX_FINAL']
-#         VPH2 = request.form['VPH2']
-#         Gen = request.form['Gen']
-#         CitologiaResultado = request.form['CitologiaResultado']
-#         TrichomonaVaginalis = request.form['TrichomonaVaginalis']
-#         MicroorganismosFungicosCandidaSpp = request.form['MicroorganismosFungicosCandidaSpp']
-#         VaginosisBacteriana = request.form['VaginosisBacteriana']
-#         BacteriasCompatiblesConActinomycesSpp = request.form['BacteriasCompatiblesConActinomycesSpp']
-#         CambiosCelularesCompatiblesConHerpes = request.form['CambiosCelularesCompatiblesConHerpes']
-#         AlteracionesCelularesInflamatorias = request.form['AlteracionesCelularesInflamatorias']
-#         AlteracionesCelularesSecundariasARadiacion = request.form['AlteracionesCelularesSecundariasARadiacion']
-#         AlteracionesCelularesSecundariasADIU = request.form['AlteracionesCelularesSecundariasADIU']
-#         AtrofiaCelular = request.form['AtrofiaCelular']
-#         CelulasEscamosasASC_US = request.form['CelulasEscamosasASC_US']
-#         CelulasEscamosasASC_H = request.form['CelulasEscamosasASC_H']
-#         CambiosCelularesVPH = request.form['CambiosCelularesVPH']
-#         LesionIntraepitelialDisplasiaLeve = request.form['LesionIntraepitelialDisplasiaLeve']
-#         LesionIntraepitelialDisplasiaModerada = request.form['LesionIntraepitelialDisplasiaModerada']
-#         CarcinomaDeCelulasEscamosas = request.form['CarcinomaDeCelulasEscamosas']
-#         CelulasEndometrialesBenignasEnPostmenopausia = request.form['CelulasEndometrialesBenignasEnPostmenopausia']
-#         CelulasGlandularesAtipicasAGUS = request.form['CelulasGlandularesAtipicasAGUS']
-#         AdenocarcinomaDeOrigenEndocervical = request.form['AdenocarcinomaDeOrigenEndocervical']
-#         AdenocarcinomaDeOrigenEndometrial = request.form['AdenocarcinomaDeOrigenEndometrial']
-#         AdenocarcinomaDeOrigenNoDefinido = request.form['AdenocarcinomaDeOrigenNoDefinido']
-#         Colposcopia = request.form['Colposcopia']
-#         Cervix = request.form['Cervix']
-#         ZonaDeTransformacion = request.form['ZonaDeTransformacion']
-#         Superficie = request.form['Superficie']
-#         Bordes = request.form['Bordes']
-#         EpitelioAcetoblanco = request.form['EpitelioAcetoblanco']
-#         PruebaDeShiller = request.form['PruebaDeShiller']
-#         DiagnosticoColposcopico = request.form['DiagnosticoColposcopico']
-#         Otros = request.form['Otros']
-#         Biopsia = request.form['Biopsia']
-#         Diagnostico = request.form['Diagnostico']
-#
-#         try:
-#             cur = mysql.connection.cursor()
-#             cur.execute('''INSERT INTO pacientes (Folio, IDForm, Nombre, FechaNacimiento, Edad, Peso, Talla, IMC, TRATAMIENTO_HORMONAL_ACTUAL, VACUNAS, CANCER_ATX, DIABETES, HIPERTENSION, TIROIDEO, INMUNOLOGICO, VIH, ITS, VPH, FUMA, DROGAS, IVSA, NPS, ANO_DEL_ULTIMO_PAP, MPF, Gestas, INTERPRETACION_PREVENTIX_FINAL, VPH2, Gen, CitologiaResultado, TrichomonaVaginalis, MicroorganismosFungicosCandidaSpp, VaginosisBacteriana, BacteriasCompatiblesConActinomycesSpp, CambiosCelularesCompatiblesConHerpes, AlteracionesCelularesInflamatorias, AlteracionesCelularesSecundariasARadiacion, AlteracionesCelularesSecundariasADIU, AtrofiaCelular, CelulasEscamosasASC_US, CelulasEscamosasASC_H, CambiosCelularesVPH, LesionIntraepitelialDisplasiaLeve, LesionIntraepitelialDisplasiaModerada, CarcinomaDeCelulasEscamosas, CelulasEndometrialesBenignasEnPostmenopausia, CelulasGlandularesAtipicasAGUS, AdenocarcinomaDeOrigenEndocervical, AdenocarcinomaDeOrigenEndometrial, AdenocarcinomaDeOrigenNoDefinido, Colposcopia, Cervix, ZonaDeTransformacion, Superficie, Bordes, EpitelioAcetoblanco, PruebaDeShiller, DiagnosticoColposcopico, Otros, Biopsia, Diagnostico)
-#             VALUES (%(Folio)s, %(IDForm)s, %(Nombre)s, %(FechaNacimiento)s, %(Edad)s, %(Peso)s, %(Talla)s, %(IMC)s, %(TRATAMIENTO_HORMONAL_ACTUAL)s, %(VACUNAS)s, %(CANCER_ATX)s, %(DIABETES)s, %(HIPERTENSION)s, %(TIROIDEO)s, %(INMUNOLOGICO)s, %(VIH)s, %(ITS)s, %(VPH)s, %(FUMA)s, %(DROGAS)s, %(IVSA)s, %(NPS)s, %(ANO_DEL_ULTIMO_PAP)s, %(MPF)s, %(Gestas)s, %(INTERPRETACION_PREVENTIX_FINAL)s, %(VPH2)s, %(Gen)s, %(CitologiaResultado)s, %(TrichomonaVaginalis)s, %(MicroorganismosFungicosCandidaSpp)s, %(VaginosisBacteriana)s, %(BacteriasCompatiblesConActinomycesSpp)s, %(CambiosCelularesCompatiblesConHerpes)s, %(AlteracionesCelularesInflamatorias)s, %(AlteracionesCelularesSecundariasARadiacion)s, %(AlteracionesCelularesSecundariasADIU)s, %(AtrofiaCelular)s, %(CelulasEscamosasASC_US)s, %(CelulasEscamosasASC_H)s, %(CambiosCelularesVPH)s, %(LesionIntraepitelialDisplasiaLeve)s, %(LesionIntraepitelialDisplasiaModerada)s, %(CarcinomaDeCelulasEscamosas)s, %(CelulasEndometrialesBenignasEnPostmenopausia)s, %(CelulasGlandularesAtipicasAGUS)s, %(AdenocarcinomaDeOrigenEndocervical)s, %(AdenocarcinomaDeOrigenEndometrial)s, %(AdenocarcinomaDeOrigenNoDefinido)s, %(Colposcopia)s, %(Cervix)s, %(ZonaDeTransformacion)s, %(Superficie)s, %(Bordes)s, %(EpitelioAcetoblanco)s, %(PruebaDeShiller)s, %(DiagnosticoColposcopico)s, %(Otros)s, %(Biopsia)s, %(Diagnostico)s)''')
-#
-#             mysql.connection.commit()
-#             flash('Paciente añadido correctamente')
-#             return redirect(url_for('pacientes.Index'))
-#         except Exception as e:
-#             flash(e.args[1])
-#             return redirect(url_for('pacientes.Index'))
-#
-#
-# @app.route('/edit/<id>', methods=['POST', 'GET'])
-# def get_paciente(id):
-#     cur = mysql.connection.cursor()
-#     cur.execute('SELECT * FROM pacientes WHERE id = %s', id)
-#     data = cur.fetchall()
-#     cur.close()
-#     print(data[0])
-#     return render_template('edit-patient.html', paciente=data[0])
-#
-#
-# @app.route('/update/<id>', methods=['POST'])
-# def update_paciente(id):
-#     if request.method == 'POST':
-#         Folio = request.form['Folio']
-#         IDForm = request.form['IDForm']
-#         Nombre = request.form['Nombre']
-#         FechaNacimiento = request.form['FechaNacimiento']
-#         Edad = int(request.form['Edad'])
-#         Peso = float(request.form['Peso'])
-#         Talla = float(request.form['Talla'])
-#         IMC = float(request.form['IMC'])
-#         TRATAMIENTO_HORMONAL_ACTUAL = request.form['TRATAMIENTO_HORMONAL_ACTUAL']
-#         VACUNAS = request.form['VACUNAS']
-#         CANCER_ATX = request.form['CANCER_ATX']
-#         DIABETES = request.form['DIABETES']
-#         HIPERTENSION = request.form['HIPERTENSION']
-#         TIROIDEO = request.form['TIROIDEO']
-#         INMUNOLOGICO = request.form['INMUNOLOGICO']
-#         VIH = request.form['VIH']
-#         ITS = request.form['ITS']
-#         VPH = request.form['VPH']
-#         FUMA = request.form['FUMA']
-#         DROGAS = request.form['DROGAS']
-#         IVSA = request.form['IVSA']
-#         NPS = request.form['NPS']
-#         ANO_DEL_ULTIMO_PAP = request.form['ANO_DEL_ULTIMO_PAP']
-#         MPF = request.form['MPF']
-#         Gestas = int(request.form['Gestas'])
-#         INTERPRETACION_PREVENTIX_FINAL = request.form['INTERPRETACION_PREVENTIX_FINAL']
-#         VPH2 = request.form['VPH2']
-#         Gen = request.form['Gen']
-#         CitologiaResultado = request.form['CitologiaResultado']
-#         TrichomonaVaginalis = request.form['TrichomonaVaginalis']
-#         MicroorganismosFungicosCandidaSpp = request.form['MicroorganismosFungicosCandidaSpp']
-#         VaginosisBacteriana = request.form['VaginosisBacteriana']
-#         BacteriasCompatiblesConActinomycesSpp = request.form['BacteriasCompatiblesConActinomycesSpp']
-#         CambiosCelularesCompatiblesConHerpes = request.form['CambiosCelularesCompatiblesConHerpes']
-#         AlteracionesCelularesInflamatorias = request.form['AlteracionesCelularesInflamatorias']
-#         AlteracionesCelularesSecundariasARadiacion = request.form['AlteracionesCelularesSecundariasARadiacion']
-#         AlteracionesCelularesSecundariasADIU = request.form['AlteracionesCelularesSecundariasADIU']
-#         AtrofiaCelular = request.form['AtrofiaCelular']
-#         CelulasEscamosasASC_US = request.form['CelulasEscamosasASC_US']
-#         CelulasEscamosasASC_H = request.form['CelulasEscamosasASC_H']
-#         CambiosCelularesVPH = request.form['CambiosCelularesVPH']
-#         LesionIntraepitelialDisplasiaLeve = request.form['LesionIntraepitelialDisplasiaLeve']
-#         LesionIntraepitelialDisplasiaModerada = request.form['LesionIntraepitelialDisplasiaModerada']
-#         CarcinomaDeCelulasEscamosas = request.form['CarcinomaDeCelulasEscamosas']
-#         CelulasEndometrialesBenignasEnPostmenopausia = request.form['CelulasEndometrialesBenignasEnPostmenopausia']
-#         CelulasGlandularesAtipicasAGUS = request.form['CelulasGlandularesAtipicasAGUS']
-#         AdenocarcinomaDeOrigenEndocervical = request.form['AdenocarcinomaDeOrigenEndocervical']
-#         AdenocarcinomaDeOrigenEndometrial = request.form['AdenocarcinomaDeOrigenEndometrial']
-#         AdenocarcinomaDeOrigenNoDefinido = request.form['AdenocarcinomaDeOrigenNoDefinido']
-#         Colposcopia = request.form['Colposcopia']
-#         Cervix = request.form['Cervix']
-#         ZonaDeTransformacion = request.form['ZonaDeTransformacion']
-#         Superficie = request.form['Superficie']
-#         Bordes = request.form['Bordes']
-#         EpitelioAcetoblanco = request.form['EpitelioAcetoblanco']
-#         PruebaDeShiller = request.form['PruebaDeShiller']
-#         DiagnosticoColposcopico = request.form['DiagnosticoColposcopico']
-#         Otros = request.form['Otros']
-#         Biopsia = request.form['Biopsia']
-#         Diagnostico = request.form['Diagnostico']
-#
-#         cur = mysql.connection.cursor()
-#         cur.execute("""
-#             UPDATE pacientes
-#             SET
-#                 Folio=%s,
-#                 IDForm =%s,
-#                 Nombre =%s,
-#                 FechaNacimiento =%s,
-#                 Edad =%s,
-#                 Peso =%s,
-#                 Talla =%s,
-#                 IMC =%s,
-#                 TRATAMIENTO_HORMONAL_ACTUAL =%s,
-#                 VACUNAS =%s,
-#                 CANCER_ATX =%s,
-#                 DIABETES =%s,
-#                 HIPERTENSION =%s,
-#                 TIROIDEO =%s,
-#                 INMUNOLOGICO =%s,
-#                 VIH =%s,
-#                 ITS =%s,
-#                 VPH =%s,
-#                 FUMA=%s,
-#                 DROGAS =%s,
-#                 IVSA =%s,
-#                 NPS =%s,
-#                 ANO_DEL_ULTIMO_PAP =%s,
-#                 MPF =%s,
-#                 Gestas =%s,
-#                 INTERPRETACION_PREVENTIX_FINAL =%s,
-#                 VPH2 =%s,
-#                 Gen =%s,
-#                 CitologiaResultado =%s,
-#                 TrichomonaVaginalis =%s,
-#                 MicroorganismosFungicosCandidaSpp =%s,
-#                 VaginosisBacteriana =%s,
-#                 BacteriasCompatiblesConActinomycesSpp =%s,
-#                 CambiosCelularesCompatiblesConHerpes =%s,
-#                 AlteracionesCelularesInflamatorias =%s,
-#                 AlteracionesCelularesSecundariasARadiacion =%s,
-#                 AlteracionesCelularesSecundariasADIU =%s,
-#                 AtrofiaCelular =%s,
-#                 CelulasEscamosasASC_US =%s,
-#                 CelulasEscamosasASC_H =%s,
-#                 CambiosCelularesVPH =%s,
-#                 LesionIntraepitelialDisplasiaLeve =%s,
-#                 LesionIntraepitelialDisplasiaModerada =%s,
-#                 CarcinomaDeCelulasEscamosas =%s,
-#                 CelulasEndometrialesBenignasEnPostmenopausia =%s,
-#                 CelulasGlandularesAtipicasAGUS =%s,
-#                 AdenocarcinomaDeOrigenEndocervical =%s,
-#                 AdenocarcinomaDeOrigenEndometrial =%s,
-#                 AdenocarcinomaDeOrigenNoDefinido =%s,
-#                 Colposcopia =%s,
-#                 Cervix =%s,
-#                 ZonaDeTransformacion =%s,
-#                 Superficie =%s,
-#                 Bordes =%s,
-#                 EpitelioAcetoblanco =%s,
-#                 PruebaDeShiller =%s,
-#                 DiagnosticoColposcopico=%s,
-#                 Otros =%s,
-#                 Biopsia =%s,
-#                 Diagnostico =%s,
-#             WHERE id = %s
-#         """, (Folio, IDForm, Nombre, FechaNacimiento, Edad, Peso, Talla, IMC, TRATAMIENTO_HORMONAL_ACTUAL, VACUNAS,
-#               CANCER_ATX, DIABETES, HIPERTENSION, TIROIDEO, INMUNOLOGICO, VIH, ITS, VPH, FUMA, DROGAS, IVSA, NPS,
-#               ANO_DEL_ULTIMO_PAP, MPF, Gestas, INTERPRETACION_PREVENTIX_FINAL, VPH2, Gen, CitologiaResultado,
-#               TrichomonaVaginalis, MicroorganismosFungicosCandidaSpp, VaginosisBacteriana,
-#               BacteriasCompatiblesConActinomycesSpp, CambiosCelularesCompatiblesConHerpes,
-#               AlteracionesCelularesInflamatorias, AlteracionesCelularesSecundariasARadiacion,
-#               AlteracionesCelularesSecundariasADIU, AtrofiaCelular, CelulasEscamosasASC_US, CelulasEscamosasASC_H,
-#               CambiosCelularesVPH, LesionIntraepitelialDisplasiaLeve, LesionIntraepitelialDisplasiaModerada,
-#               CarcinomaDeCelulasEscamosas, CelulasEndometrialesBenignasEnPostmenopausia, CelulasGlandularesAtipicasAGUS,
-#               AdenocarcinomaDeOrigenEndocervical, AdenocarcinomaDeOrigenEndometrial, AdenocarcinomaDeOrigenNoDefinido,
-#               Colposcopia, Cervix, ZonaDeTransformacion, Superficie, Bordes, EpitelioAcetoblanco, PruebaDeShiller,
-#               DiagnosticoColposcopico, Otros, Biopsia, Diagnostico))
-#         flash('Paciente actualizado correctamente')
-#         mysql.connection.commit()
-#         return redirect(url_for('pacientes.Index'))
-
 
 @app.route('/busquedas', methods=['GET'])
 def busquedas():
@@ -465,23 +233,75 @@ def procesar():
     opcionr1 = opciones.get(opcion1, opcion1)
     opcionr2 = opciones.get(opcion2, opcion2)
 
-    # Construir y ejecutar la consulta SQL
-    consulta = f"SELECT COUNT(*)  FROM pacientesdepurada WHERE {opcion1} = '101' AND {opcion2} = '101'"
-    cur.execute(consulta)
+    ####
+    # Construir y ejecutar las consultas SQL
+    consulta_1 = f"SELECT COUNT(*) FROM pacientesdepurada WHERE {opcion1} = '101' AND {opcion2} = '101'"
+    cur.execute(consulta_1)
     consulta01 = cur.fetchall()[0]['COUNT(*)']
 
-    consulta1 = f"SELECT COUNT(*)  FROM pacientesdepurada WHERE {opcion1} = '101' AND {opcion2} = '100'"
-    cur.execute(consulta1)
+    consulta_2 = f"SELECT COUNT(*) FROM pacientesdepurada WHERE {opcion1} = '101' AND {opcion2} = '100'"
+    cur.execute(consulta_2)
     consulta02 = cur.fetchall()[0]['COUNT(*)']
 
-    consulta2 = f"SELECT COUNT(*)  FROM pacientesdepurada WHERE {opcion1} = '100' AND {opcion2} = '101'"
-    cur.execute(consulta2)
+    consulta_3 = f"SELECT COUNT(*) FROM pacientesdepurada WHERE {opcion1} = '100' AND {opcion2} = '101'"
+    cur.execute(consulta_3)
     consulta03 = cur.fetchall()[0]['COUNT(*)']
 
-    consulta3 = f"SELECT COUNT(*)  FROM pacientesdepurada WHERE {opcion1} = '100' AND {opcion2} = '100'"
-    cur.execute(consulta3)
+    consulta_4 = f"SELECT COUNT(*) FROM pacientesdepurada WHERE {opcion1} = '100' AND {opcion2} = '100'"
+    cur.execute(consulta_4)
     consulta04 = cur.fetchall()[0]['COUNT(*)']
+
     cur.close()
+
+    # <td> + </td>#
+    # <td>{{ consulta01 }}</td>#
+    # <td>{{ consulta02 }}</td>#
+    # <td>{{ consulta01 + consulta02 }}</td>#
+
+    # <th> - </th>#
+    # <td>{{ consulta03 }} </td>#
+    # <td>{{ consulta04 }}</td>#
+    # <td>{{ consulta03 + consulta04 }}</td>#
+
+    # sample_mean: Proporción de éxito observada en la muestra
+    sample_mean = (consulta01 + consulta02) / (consulta01 + consulta02 + consulta03 + consulta04)
+
+    # population_mean: Proporción de éxito esperada en la población
+    population_mean = sample_mean
+
+    # sample_std: Desviación estándar de la muestra
+    sample_std = np.sqrt((sample_mean * (1 - sample_mean)) / (consulta01 + consulta02 + consulta03 + consulta04 - 1))
+
+    # sample_size: Tamaño de la muestra
+    sample_size = consulta01 + consulta02 + consulta03 + consulta04
+
+    # sample_mean: Es la media de la muestra. Representa el promedio de los valores #observados en la muestra de pacientes.
+    #sample_mean = consulta01 / (consulta01 + consulta02)
+    # population_mean: Es la media de la población. Representa el valor promedio esperado en #la población de pacientes.
+    #population_mean = (consulta01 + consulta02) / 2
+    # sample_std: Es la desviación estándar de la muestra. Representa la variabilidad de los #valores observados en la muestra de pacientes.
+    #sample_std = np.sqrt((consulta01  * consulta02 ) / (consulta01 + consulta02 - 1))
+    # sample_size: Es el tamaño de la muestra. Indica la cantidad de pacientes en la muestra #utilizada para realizar el cálculo.
+    #sample_size = consulta01 + consulta02
+    # alpha: Es el nivel de significancia. Representa la probabilidad de cometer un error de #tipo I, es decir, rechazar incorrectamente la hipótesis nula.
+    alpha = 0.05
+
+
+    # Calcula la estadística de prueba z
+    z = (sample_mean - population_mean) / (sample_std / np.sqrt(sample_size))
+    print("z value", z)
+
+    # Calcula el valor crítico z correspondiente al nivel de significancia
+    z_critical = norm.ppf(1 - alpha)
+    print("z_critical", z)
+
+    # Calcula el poder de la prueba
+    beta = norm.cdf(z_critical - (sample_mean - population_mean) / (sample_std / np.sqrt(sample_size)))
+    print("beta value", beta)
+    power = 1 - beta
+    print("power value", power)
+
+    ####
 
     data = [[consulta01, consulta02], [consulta03, consulta04]]
     # sensibilidad = consulta01 / (consulta01 + consulta03)
@@ -567,6 +387,14 @@ def Tablas():
     return render_template('tablasLimpias.html', pacientesPREVENTIX=data, pacientesPREVVPH=data1, pacientesVPH=data2,
                            pacientesBiopsia=data3, pacientesTotales=data4)
 
+@app.route('/tablageneral')
+def Tablageneral():
+    cur = mysql.connection.cursor()
+    cur.execute('''SELECT * FROM pacientesdepurada ''')
+    data4 = cur.fetchall()
+
+    cur.close()
+    return render_template('baseDepurada.html',  pacientesTotales=data4)
 
 @app.route('/export_excel')
 def export_excel():

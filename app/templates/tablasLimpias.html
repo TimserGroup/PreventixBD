@@ -1,34 +1,34 @@
 {% extends "layout.html" %} {% block body %} <div class="row w-100" style="padding-top: 10%">
   <div class="col w-100">
 
-    <table class="fl-table" style="padding-top: 50%">
-      <h1 style="text-align: center; color: white">Pacientes </h1>
-    <a href="/export_excelCompleto" class="btn btn-secondary" style=" position: center">Exportar a Excel</a>
-      <thead>
-        <tr style="background-color: darkblue; color: white; font-weight: bold">
-
-          <td>ID</td>
-          <td>PREVENTIX</td>
-          <td>VPH</td>
-          <td>Citología</td>
-          <td>Colposcopia</td>
-          <td>Biopsia</td>
-        </tr>
-      </thead>
-      <tbody> {% for paciente in pacientesTotales %} <tr>
-
-            <td>{{ paciente.ID }}</td>
-            <td>{{ paciente.RESULTADO_NUMERICO_PREVENTIX }}</td>
-            <td>{{ paciente.RESULTADO_NUMERICO_VPH }}</td>
-            <td>{{ paciente.RESULTADO_NUMERICO_PAP }}</td>
-            <td>{{ paciente.resultado_numerico_colposcopia }}</td>
-            <td>{{ paciente.Resultado_num_biopsia }}</td>
-            <td>
-            <a href="/edit/{{paciente.ID}}" class="btn btn-secondary">Editar</a>
-            <a href="/delete/{{paciente.ID}}" class="btn btn-danger btn-delete">Borrar</a>
-            </td>
-        </tr> {% endfor %} </tbody>
-    </table>
+{#    <table class="fl-table" style="padding-top: 50%">#}
+{#      <h1 style="text-align: center; color: white">Pacientes </h1>#}
+{#    <a href="/export_excelCompleto" class="btn btn-secondary" style=" position: center">Exportar a Excel</a>#}
+{#      <thead>#}
+{#        <tr style="background-color: darkblue; color: white; font-weight: bold">#}
+{##}
+{#          <td>ID</td>#}
+{#          <td>PREVENTIX</td>#}
+{#          <td>VPH</td>#}
+{#          <td>Citología</td>#}
+{#          <td>Colposcopia</td>#}
+{#          <td>Biopsia</td>#}
+{#        </tr>#}
+{#      </thead>#}
+{#      <tbody> {% for paciente in pacientesTotales %} <tr>#}
+{##}
+{#            <td>{{ paciente.ID }}</td>#}
+{#            <td>{{ paciente.RESULTADO_NUMERICO_PREVENTIX }}</td>#}
+{#            <td>{{ paciente.RESULTADO_NUMERICO_VPH }}</td>#}
+{#            <td>{{ paciente.RESULTADO_NUMERICO_PAP }}</td>#}
+{#            <td>{{ paciente.resultado_numerico_colposcopia }}</td>#}
+{#            <td>{{ paciente.Resultado_num_biopsia }}</td>#}
+{#            <td>#}
+{#            <a href="/edit/{{paciente.ID}}" class="btn btn-secondary">Editar</a>#}
+{#            <a href="/delete/{{paciente.ID}}" class="btn btn-danger btn-delete">Borrar</a>#}
+{#            </td>#}
+{#        </tr> {% endfor %} </tbody>#}
+{#    </table>#}
 <table class="fl-table" style="padding-top: 50%">
       <h1 style="text-align: center; color: white">Pacientes Positivas PREVENTIX</h1>
         <a href="/export_excel" class="btn btn-secondary" style=" position: center">Exportar a Excel</a>
