@@ -337,7 +337,8 @@ def mcnemar_test(c1, c2):
     p_value = 1 - chi2.cdf(chi2_value, 1)  # Valor p
 
     # Calcula el poder de la prueba
-    power = 1 - binom.cdf(c1, n, 0.5) - binom.cdf(n - c2 - 1, n, 0.5)
+    #power = 1 - binom.cdf(c1, n, 0.5) - binom.cdf(n - c2 - 1, n, 0.5)
+    power = round((1 - binom.cdf(c1, n, 0.5) - binom.cdf(n - c2 - 1, n, 0.5)) * -10, 6)
     return p_value, power
 
 @app.route('/tablas')
