@@ -334,7 +334,7 @@ def mcnemar_test(c1, c2):
     #power = 1 - chi2.cdf(chi2.ppf(0.95, 1), 1) + chi2.cdf(chi2.ppf(0.95, 1) - np.sqrt(n) * abs(b) / np.sqrt(c1 + c2), 1)
 
 
-    p_value = 1 - chi2.cdf(chi2_value, 1)  # Valor p
+    p_value = round(1 - chi2.cdf(chi2_value, 1)  , 4)
 
     # Calcula el poder de la prueba
     #power = 1 - binom.cdf(c1, n, 0.5) - binom.cdf(n - c2 - 1, n, 0.5)
