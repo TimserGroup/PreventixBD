@@ -282,7 +282,7 @@ def procesar():
 
     # Realizar la prueba McNemar
     chi2_stat, p_value = chi2_contingency(PREVvsCOLP, correction=True)[:2]
-    print(f"Resultado de la prueba McNemar (Chi cuadrada): X2 = {chi2_stat:.4f}, p = {p_value:.4f}")
+
 
     # Calcular el poder de la prueba McNemar usando la función pwr_mcnemar
     n = consulta04 + consulta03 + consulta02 + consulta01
