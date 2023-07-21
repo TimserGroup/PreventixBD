@@ -2,8 +2,9 @@ from flask import Blueprint, request, render_template, redirect, url_for, flash,
 import numpy as np
 import pandas as pd
 from scipy.stats import chi2_contingency
-from scipy.stats import chi2
-from scipy.stats import binom
+from scipy.stats import chi2, norm, binom
+
+from scipy.special import erfc
 from flask_mysqldb import MySQL
 from dotenv import load_dotenv
 import os
@@ -272,6 +273,33 @@ def procesar():
 
     # print("Valor p:", p_value)
     # print("Poder de la prueba:", power)
+    # Example usage:
+    x = np.array([[consulta01, consulta02], [consulta03, consulta04]])
+    # Datos de la matriz PREVvsCOLP
+    PREVvsCOLP = np.array([[consulta01, consulta03], [consulta02, consulta04]])
+
+
+
+    # Realizar la prueba McNemar
+    chi2_stat, p_value = chi2_contingency(PREVvsCOLP, correction=True)[:2]
+    print(f"Resultado de la prueba McNemar (Chi cuadrada): X2 = {chi2_stat:.4f}, p = {p_value:.4f}")
+
+    # Calcular el poder de la prueba McNemar usando la función pwr_mcnemar
+    n = consulta04 + consulta03 + consulta02 + consulta01
+    p10 = consulta02 / n
+    p01 = consulta03 / n
+    result = pwr_mcnemar(p10, p01, alpha=0.05, n=n)
+    # print(
+    #     f"Resultado: Poder de la prueba {result['power']:.4f} o {result['power'] * 100:.2f}%. Calculado con la aproximación del Dr. Greenwell.")
+    # Calcular la potencia como porcentaje
+    potenciadr = result['power'] * 100
+
+    # Ahora puedes utilizar potenciadr para lo que necesites
+    chimc = round(chi2_stat,5)
+    pval = round(p_value, 5)
+
+
+
 
     data = [[consulta01, consulta02], [consulta03, consulta04]]
     # sensibilidad = consulta01 / (consulta01 + consulta03)
@@ -321,7 +349,9 @@ def procesar():
     return render_template('busquedaPersonalizada.html', vpp=vpp, vpn=vpn, rpp=rpp, rpn=rpn, sensibilidad=sensibilidad,
                            especificidad=especificidad, consulta01=consulta01, consulta02=consulta02,
                            consulta03=consulta03, consulta04=consulta04, chi2=chi2, p_value=p_value, opcion2=opcion2,
-                           opcion1=opcion1, opcionr1=opcionr1, opcionr2=opcionr2, power=power, p_value1 = p_value1)
+                           opcion1=opcion1, opcionr1=opcionr1, opcionr2=opcionr2, power=power, p_value1 = p_value1,potenciadr = potenciadr, chimc=chimc,pval=pval)
+
+
 
 def mcnemar_test(c1, c2):
     # Calcula los valores necesarios para la prueba de McNemar
@@ -340,6 +370,26 @@ def mcnemar_test(c1, c2):
     #power = 1 - binom.cdf(c1, n, 0.5) - binom.cdf(n - c2 - 1, n, 0.5)
     power = round((1 - binom.cdf(c1, n, 0.5) - binom.cdf(n - c2 - 1, n, 0.5)) * -10, 6)
     return p_value, power
+
+
+def pwr_mcnemar(p10, p01, alpha=0.05, n=None, power=None):
+    pdisc = p10 + p01
+    pdiff = p10 - p01
+
+    if power is None and n is not None:
+        x1 = (pdiff * np.sqrt(n) - norm.ppf(1 - alpha / 2) * np.sqrt(pdisc)) / np.sqrt(pdisc - pdiff ** 2)
+        x2 = (-pdiff * np.sqrt(n) - norm.ppf(1 - alpha / 2) * np.sqrt(pdisc)) / np.sqrt(pdisc - pdiff ** 2)
+        power = norm.cdf(x1) + norm.cdf(x2)
+    elif n is None and power is not None:
+        n = ((norm.ppf(1 - alpha / 2) * np.sqrt(pdisc) + norm.ppf(power) * np.sqrt(pdisc - pdiff ** 2)) / pdiff) ** 2
+    else:
+        raise ValueError("Must supply one of `n` or `power`, but not both.")
+
+    return {"n": n, "power": power}
+
+
+
+
 
 @app.route('/tablas')
 def Tablas():
