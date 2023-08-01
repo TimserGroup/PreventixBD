@@ -76,11 +76,15 @@ def index():
 
 @app.route('/addP', methods=['GET'])
 def show_add_patient_form():
+    if not check_login():
+        return redirect(url_for('login'))
     return render_template('agregarPaciente.html')
 
 # Ruta para procesar la solicitud de agregar paciente
 @app.route('/add_paciente/', methods=['POST', 'GET'])
 def add_paciente():
+    if not check_login():
+        return redirect(url_for('login'))
     if request.method == 'POST':
         Nombre = request.form['Nombre']
         PREVENTIX = request.form['PREVENTIX']
@@ -112,6 +116,8 @@ def add_paciente():
 
 @app.route('/edit/<id>', methods=['POST', 'GET'])
 def get_paciente(id):
+    if not check_login():
+        return redirect(url_for('login'))
     cur = mysql.connection.cursor()
     cur.execute('SELECT * FROM pacientesdepurada WHERE ID = %s', id)
     data = cur.fetchall()
@@ -123,6 +129,8 @@ def get_paciente(id):
 
 @app.route('/update/<int:id>', methods=['POST'])
 def update_paciente(id):
+    if not check_login():
+        return redirect(url_for('login'))
     if request.method == 'POST':
         IDBD = request.form['IDBD']
         Nombre = request.form['Nombre']
@@ -181,6 +189,8 @@ def update_paciente(id):
 
 @app.route('/busquedas', methods=['GET'])
 def busquedas():
+    if not check_login():
+        return redirect(url_for('login'))
     cur = mysql.connection.cursor()
     cur.execute('''SELECT COUNT(*) 
                     FROM pacientesdepurada
@@ -209,6 +219,8 @@ def busquedas():
 
 @app.route('/delete/<string:id>', methods=['POST', 'GET'])
 def delete_paciente(id):
+    if not check_login():
+        return redirect(url_for('login'))
     cur = mysql.connection.cursor()
     cur.execute('DELETE FROM pacientesdepurada WHERE id = {0}'.format(id))
     mysql.connection.commit()
@@ -218,6 +230,8 @@ def delete_paciente(id):
 
 @app.route('/agregarPaciente', methods=['POST'])
 def agregarPaciente():
+    if not check_login():
+        return redirect(url_for('login'))
     cur = mysql.connection.cursor()
     cur.execute('SELECT * FROM pacientes')
     data = cur.fetchall()
@@ -227,6 +241,8 @@ def agregarPaciente():
 
 @app.route('/cargarArchivo', methods=['GET', 'POST'])
 def cargarArchivo():
+    if not check_login():
+        return redirect(url_for('login'))
     cur = mysql.connection.cursor()
     cur.execute('SELECT * FROM pacientes')
     data = cur.fetchall()
@@ -236,6 +252,8 @@ def cargarArchivo():
 
 @app.route('/depurado', methods=['GET', 'POST'])
 def depurado():
+    if not check_login():
+        return redirect(url_for('login'))
     cur = mysql.connection.cursor()
     cur.execute('SELECT * FROM pacientesdepurada')
     registros = cur.fetchall()
@@ -254,6 +272,8 @@ def depurado():
 
 @app.route('/procesar', methods=['GET', 'POST'])
 def procesar():
+    if not check_login():
+        return redirect(url_for('login'))
     cur = mysql.connection.cursor()
     cur.execute('SELECT * FROM pacientesdepurada')
 
@@ -429,6 +449,8 @@ def pwr_mcnemar(p10, p01, alpha=0.05, n=None, power=None):
 
 @app.route('/tablas')
 def Tablas():
+    if not check_login():
+        return redirect(url_for('login'))
     cur = mysql.connection.cursor()
     cur.execute('''SELECT ID, RESULTADO_NUMERICO_PREVENTIX, RESULTADO_NUMERICO_VPH, RESULTADO_NUMERICO_PAP, resultado_numerico_colposcopia, Resultado_num_biopsia
                         FROM pacientesdepurada
@@ -462,6 +484,8 @@ def Tablas():
 
 @app.route('/tablageneral')
 def Tablageneral():
+    if not check_login():
+        return redirect(url_for('login'))
     cur = mysql.connection.cursor()
     cur.execute('''SELECT * FROM pacientesdepurada ''')
     data4 = cur.fetchall()
