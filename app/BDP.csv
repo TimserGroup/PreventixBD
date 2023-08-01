@@ -1,0 +1,79 @@
+﻿ID,Nombre,PREVENTIX,RESULTADO_NUMERICO_PREVENTIX,Resultado_PCR_VPH,RESULTADO_NUMERICO_VPH,Resultado_Papanicolaou,RESULTADO_NUMERICO_PAP,Resultado_de_colposcopio,resultado_numerico_colposcopia,Resultado_biopsia_de_cervix,Resultado_num_biopsia
+1,Nancy Guadalupe Guevara Garcia,POSITIVO,101,"2, 6",101,"8, 9, 14",100,"26, 32, 34",100,46,102
+2,Yolanda Ochoa Guerra,NEGATIVO,100,3,100,"8, 9",100,"26, 32",100,46,102
+3,Martha Elena Gonzalez Mendez,NEGATIVO,100,3,100,"8, 9",100,"26, 32",100,46,102
+4,Esther Xochitl Olmeda Garcia,NEGATIVO,100,3,100,"8, 9",100,"26, 36",100,46,102
+5,Martha Idalia Cedillo Montoya,POSITIVO,101,3,100,"8, 9, 14",100,"27, 30, 35",100,46,102
+6,Itza Eloisa Luna Cruz,POSITIVO,101,3,100,"8, 9",100,"26, 37",100,46,102
+7,Blanca Esthela Moya Caballero,POSITIVO,101,3,100,"8, 9, 14",100,"26, 32",100,46,102
+8,Alejandra Gomez Treviño,POSITIVO,101,"2, 6",101,"8, 9",100,28,101,41,101
+9,Carmen Julia Martinez Ruiz,POSITIVO,101,3,100,"8, 9",100,"26, 35",100,46,102
+10,Minerva Garfias Pacheco,NEGATIVO,100,3,100,"8, 9",100,"28, 37, 38",101,"40, 44, 45",100
+11,Lucero Yesenia Saenz Arias,POSITIVO,101,3,100,"8, 9",100,26,100,46,102
+12,Maria de Lourdes Olivo Maldonado,POSITIVO,101,3,100,"8, 9",100,"26, 32, 34",100,46,102
+13,Karla Karenny Muñoz Martinez,NEGATIVO,100,3,100,"8, 9",100,"26, 38",100,46,102
+14,Maria Yazmin Ramirez Lopez,POSITIVO,101,3,100,"7, 11, 15",101,"29, 37",101,"40, 43, 44",100
+15,Bruna Roberti Sato,POSITIVO,101,3,100,"8, 9",100,28,101,"41, 48",101
+16,Dulce Gina Jovana de la Torre Ramirez,POSITIVO,101,3,100,"8, 9",100,"28, 30, 34",101,"40, 44",100
+17,Valeria Abigail Moreno Zapata,NEGATIVO,100,3,100,"8, 10",100,"31, 37",100,46,102
+18,Lissette Yadirah Hernandez Valero,POSITIVO,101,3,100,"8, 9",100,"26, 34",100,46,102
+19,Danne Mayte Leos Estrada,POSITIVO,101,3,100,"8, 9",100,"28, 34, 37",101,"41, 44, 48 ",101
+20,Maria Cristina Guerrero Ojeda,NEGATIVO,100,3,100,"8, 9",100,"26, 32",100,46,102
+21,Laura Patricia Hernandez Medina,POSITIVO,101,3,100,"8, 9",100,"29, 34",101,"41, 44",101
+22,Yadira Gonzalez Carranza,NEGATIVO,100,3,100,"8, 10",100,"26, 35",100,46,102
+23,Fatima Alejandra Castellanos Islas,POSITIVO,101,3,100,"8, 10",100,28,101,"40, 49",100
+24,Liliana Mabel Posada Murillo,NEGATIVO,100,3,100,"8, 9",100,"27, 30, 37 ",100,46,102
+25,Ruth Flores Lopez,POSITIVO,101,3,100,"8, 9, 14",100,"26, 35",100,40,100
+26,Rosalinda Navarro Tienda,POSITIVO,101,3,100,"8, 9, 14",100,"26, 32",100,46,102
+27,Martha Patricia Gomez Casas,POSITIVO,101,3,100,"8, 9",100,"26, 35",100,46,102
+28,Jackeline Lopez Martinez,POSITIVO,101,3,100,"8,9",100,"28, 37",101,"41, 44, 48",101
+29,Dulce Stephania Salazar Ovalle,NEGATIVO,100,3,100,"7, 9, 15",101,26,100,46,102
+30,Maria Guadalupe Lopez Lopez,NEGATIVO,100,3,100,"8, 10",100,"26, 34",100,46,102
+31,Ana Laura Macias Ponce,NEGATIVO,100,3,100,"8, 9",100,26,100,46,102
+32,Patricia Elizabeth Muñoz Medrano,POSITIVO,101,3,100,"8, 9",100,26,100,46,102
+33,Claudia Maribel Oliva Garcia,NEGATIVO,100,"2, 6",101,"7, 15",101,"26, 35",100,46,102
+34,Fatima Lizbeth Cruz Ruiz,NEGATIVO,100,3,100,"8, 10",100,"26, 37, 39",100,46,102
+35,Erika Yazmin Diaz Guzman,POSITIVO,101,3,100,"7, 15",101,"29, 36, 37",101,"41, 44",101
+36,Laura Ortiz Rivera ,POSITIVO,101,3,100,"8, 9",100,"26, 35",100,46,102
+37,Angela Rubi Armendariz Mata ,POSITIVO,101,3,100,"7, 9, 15",101,29,101,41,101
+38,Elizabeth Najera Cavazos,POSITIVO,101,3,100,"8, 10",100,"26, 30",100,46,102
+39,Gloria Cecilia Vazquez Cuarto,POSITIVO,101,3,100,"8, 10, 14",100,32,100,46,102
+40,Nohemi Zamarron Saldaña,POSITIVO,101,3,100,"7, 9, 15",101,"28, 37",101,"41, 48, 49 ",101
+41,Adelaida Murillo Araiza,POSITIVO,101,3,100,"7, 15",101,"28, 32, 34",101,"41, 48",101
+42,Alejandra Rodriguez Delgado,POSITIVO,101,3,100,"8, 10",100,"26, 32",100,46,102
+43,Blanca Ivett Rios Alvarado,NEGATIVO,100,"2, 6",101,"7, 10, 17, 18",101,26,100,46,102
+44,Gloria Cecilia Vazquez Cuarto,POSITIVO,101,3,100,"8, 10, 14",100,32,100,46,102
+45,Jhesica Paola Valadez Peña,NEGATIVO,100,3,100,"8, 9",100,26,100,46,102
+46,Nora Nataly Flores García,NEGATIVO,100,"2, 6",101,"8, 9",100,"27, 37",100,"42, 48, 49",101
+47,Sonia Lidia Saldaña Gloria,POSITIVO,101,3,100,"8, 9, 14",100,32,100,"40, 44, 45",100
+48,Paulina Mendez Carballo,NEGATIVO,100,3,100,"8, 9",100,26,100,46,102
+49,Selene Escobedo Nolasco,NEGATIVO,100,3,100,"8, 9",100,26,100,46,102
+50,Esperanza Moreno Moreno,POSITIVO,101,3,100,"8, 9",100,"28, 32",101,"41, 49, 48",101
+51,Susana Santiago Torres,NEGATIVO,100,3,100,"8, 9",100,"27, 37",100,40,100
+52,Consuelo Ortega Gatica,NEGATIVO,100,3,100,"8, 9, 14",100,"26, 32",100,40,100
+53,Mayra  Martinez Moreno,POSITIVO,101,3,100,"8, 9",100,"28, 37",101,41,101
+54,Alicia Felix Delgado,NEGATIVO,100,3,100,"8, 9",100,"26, 31",100,"41, 48",101
+55,Gregoria Reyes Perez,NEGATIVO,100,3,100,"8, 9 ",100,"28, 37",101,40,100
+56,HILDA HERNANDEZ PUEBLA,NEGATIVO,100,3,100,"8, 9, 14",100,"26, 30",100,41,101
+57,Silvia Rodriguez Aguilar,NEGATIVO,100,"2, 6",101,"8, 9 ",100,"26, 32",100,46,102
+58,VICTORIA RAMIREZ ALVAREZ,NEGATIVO,100,3,100,"8, 10",100,"28, 37",101,46,100
+59,Brenda Jara Cisneros,NEGATIVO,100,3,100,"8, 10",100,"26, 32",100,40,100
+60,Epifania Ramirez Morgan,POSITIVO,101,3,100,"8, 9, 14",100,"26, 32",100,"40, 50",100
+61,Evelin Mónica Rodríguez Reyna,NEGATIVO,100,3,100,"8, 9",100,"26, 36",100,"40, 49",100
+62,Yesica Guevara Treviño,NEGATIVO,100,"2, 4",101,"8, 9",100,26,100,"41, 44, 48",100
+63,VERONICA ROSALES SANCHEZ,NEGATIVO,100,3,100,"8, 10",100,"27, 37",100,45,100
+64,Maria Guadalupe Cisneros Rivera,NEGATIVO,100,3,100,"8, 9",100,26,100,40,100
+65,ERIKA LARA ESTRADA,NEGATIVO,100,3,100,"8, 9",100,30,100,41,100
+66,Elizabeth Garza Alpiza,NEGATIVO,100,3,100,"8, 9",100,"26, 32",100,41,101
+67,Beatriz Nuncio Gonzales,NEGATIVO,100,3,100,"8, 9",100,"28, 37",101,41,101
+68,MARIA GARZA VALDEZ,NEGATIVO,100,3,100,,100,,100,,100
+69,Thelma Pérez Mandujano,NEGATIVO,100,3,100,,100,,100,,101
+70,Lourdes Yudith Carlos Charles,NEGATIVO,100,3,100,,100,,100,,100
+71,Felipa Serrato Rodríguez,NEGATIVO,100,,100,,100,,100,,101
+72,Ana Hernández Hernández,NEGATIVO,100,,100,,100,,100,,101
+73,Consuelo Ortega Chavira,NEGATIVO,100,,100,,100,,100,,100
+74,Alejandra Diaz Nuncio,NEGATIVO,100,,100,,100,,101,,101
+75,Monserrat Luna Castro,POSITIVO,101,,100,,100,,100,,100
+76,Laura Leticia Mejia Tovar,NEGATIVO,100,,100,,100,,100,,102
+77,Delia Hernandez Sandova,NEGATIVO,100,,102,,102,,100,,101
+78,Ana Belem Garcia Hernandez,POSITIVO,101,,102,,102,,100,,101

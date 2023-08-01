@@ -1,4 +1,4 @@
-from flask import Blueprint, request, render_template, redirect, url_for, flash, Flask, make_response
+from flask import Blueprint, request, render_template, redirect, url_for, flash, Flask, make_response, session
 import numpy as np
 import pandas as pd
 from scipy.stats import chi2_contingency
@@ -13,7 +13,7 @@ from scipy.stats import norm
 
 load_dotenv()
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='assets')
 app.secret_key = "mysecretkey"
 
 # Mysql Settings
@@ -28,9 +28,45 @@ mysql = MySQL(app)
 
 pacientes = Blueprint('pacientes', __name__, template_folder='app/templates')
 
+def check_login():
+    try:
+        logged = session['loggedin']
+        return True
+    except KeyError:
+        return False
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if check_login():
+        return redirect(url_for('index'))
+    msg = ''
+    if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
+        username = request.form['username']
+        password = request.form['password']
+        db = mysql.connection.cursor()
+        db.execute("""SELECT id, username FROM Account 
+                        WHERE username=\"{}\" AND password =\"{}\" """.format(username, password))
+        account = db.fetchone()
+        if account:
+            session['loggedin'] = True
+            session['id'] = account[0]
+            session['username'] = account[1]
+            return redirect(url_for('index'))
+        else:
+            msg = "Usuario o contraseña incorrecto"
+    return render_template('login.html', msg=msg)
+
+@app.route('/logout')
+def logout():
+    session.pop('loggedin', None)
+    session.pop('id', None)
+    session.pop('username', None)
+    return redirect(url_for('login'))
 
 @app.route('/')
 def index():
+    if not check_login():
+        return redirect(url_for('login'))
     cur = mysql.connection.cursor()
     cur.execute('SELECT * FROM pacientes')
     data = cur.fetchall()
