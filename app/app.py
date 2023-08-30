@@ -54,6 +54,7 @@ def login():
             return redirect(url_for('index'))
         else:
             msg = "Usuario o contraseña incorrecto"
+
     return render_template('login.html', msg=msg)
 
 @app.route('/logout')
@@ -119,10 +120,10 @@ def get_paciente(id):
     if not check_login():
         return redirect(url_for('login'))
     cur = mysql.connection.cursor()
-    cur.execute('SELECT * FROM pacientesdepurada WHERE ID = %s', id)
+    cur.execute('SELECT * FROM pacientesdepurada WHERE ID = %s', (id,))
+
     data = cur.fetchall()
     cur.close()
-    print(data[0])
 
     return render_template('edit-patient.html', patient=data[0])
 
