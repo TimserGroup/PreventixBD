@@ -146,6 +146,8 @@ def update_paciente(id):
         resultado_numerico_colposcopia = request.form['resultado_numerico_colposcopia']
         Resultado_biopsia_de_cervix = request.form['Resultado_biopsia_de_cervix']
         Resultado_num_biopsia = request.form['Resultado_num_biopsia']
+        WesternBlot = request.form['WesternBlot']
+        Elisas = request.form['Elisas']
 
         cur = mysql.connection.cursor()
         cur.execute('''
@@ -163,8 +165,10 @@ def update_paciente(id):
                 Resultado_de_colposcopio = %(Resultado_de_colposcopio)s,
                 resultado_numerico_colposcopia = %(resultado_numerico_colposcopia)s,
                 Resultado_biopsia_de_cervix = %(Resultado_biopsia_de_cervix)s,
-                Resultado_num_biopsia = %(Resultado_num_biopsia)s
-            WHERE IDBD = %(id)s
+                Resultado_num_biopsia = %(Resultado_num_biopsia)s,
+                WesternBlot = %(WesternBlot)s,
+                Elisas = %(Elisas)s
+            WHERE ID = %(ID)s
         ''',
                     {
                         'IDBD': IDBD,
@@ -179,12 +183,14 @@ def update_paciente(id):
                         'Resultado_de_colposcopio': Resultado_de_colposcopio,
                         'resultado_numerico_colposcopia': resultado_numerico_colposcopia,
                         'Resultado_biopsia_de_cervix': Resultado_biopsia_de_cervix,
-                        'Resultado_num_biopsia': Resultado_num_biopsia
+                        'Resultado_num_biopsia': Resultado_num_biopsia,
+                        'WesternBlot': WesternBlot,
+                        'Elisas': Elisas
                     })
 
         flash('Paciente actualizado correctamente')
         mysql.connection.commit()
-        return redirect(url_for('pacientes.Index'))
+        return redirect(url_for('Tablageneral'))
 
 
 

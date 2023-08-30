@@ -4,7 +4,7 @@
   <div class="row" style="padding-top: 10%">
     <div class="col-md-4 offset-md-4">
       <div class="card card-body">
-        <form action="/update/{{patient.id}}" method="POST">
+        <form action="/update/{{patient.ID}}" method="POST">
           <div class="form-group">
             <input type="text" name="IDBD" value="{{patient.IDDB}}" class="form-control">
           </div>
@@ -43,6 +43,12 @@
           </div>
           <div class="form-group">
             <input type="text" name="Resultado_num_biopsia" value="{{patient.Resultado_num_biopsia}}" class="form-control">
+          </div>
+            <div class="form-group">
+            <input type="text" name="WesternBlot" value="{{patient.WesternBlot}}" class="form-control">
+          </div>
+            <div class="form-group">
+            <input type="text" name="Elisas" value="{{patient.Elisas}}" class="form-control">
           </div>
           <div class="form-group">
             <button type="submit" class="btn btn-primary btn-block">
