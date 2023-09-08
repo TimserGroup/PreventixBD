@@ -35,27 +35,38 @@ def check_login():
     except KeyError:
         return False
 
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if check_login():
+    if 'loggedin' in session and session['loggedin']:
         return redirect(url_for('index'))
+
     msg = ''
+
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
         username = request.form['username']
         password = request.form['password']
-        db = mysql.connection.cursor()
-        db.execute("""SELECT id, username FROM Account 
-                        WHERE username=\"{}\" AND password =\"{}\" """.format(username, password))
-        account = db.fetchone()
-        if account:
-            session['loggedin'] = True
-            session['id'] = account[0]
-            session['username'] = account[1]
-            return redirect(url_for('index'))
-        else:
-            msg = "Usuario o contraseña incorrecto"
+
+        try:
+            db = mysql.connection.cursor()
+            db.execute("""SELECT id, username FROM Account 
+                            WHERE username = %s AND password = %s""", (username, password))
+            account = db.fetchone()
+
+            if account:
+                session['loggedin'] = True
+                session['id'] = account[0]
+                session['username'] = account[1]
+                return redirect(url_for('index'))
+            else:
+                msg = "Usuario o contraseña incorrecto"
+
+        except Exception as e:
+            print("Error al ejecutar la consulta SQL:", str(e))
+            msg = "Hubo un problema al iniciar sesión"
 
     return render_template('login.html', msg=msg)
+
 
 @app.route('/logout')
 def logout():
@@ -222,6 +233,122 @@ def busquedas():
     cur.close()
     return render_template('graficas.html', dataPrevNBiopsiaN=dataPrevNBiopsiaN, dataPrevNBiopsia=dataPrevNBiopsia,
                            dataPrevBiopsiaN=dataPrevBiopsiaN, dataPrevBiopsia=dataPrevBiopsia)
+
+def actualizar_resultados_numericos():
+    try:
+        cur = mysql.connection.cursor()
+
+        # Realiza la consulta a la base de datos
+        cur.execute('''SELECT * FROM pacientesdepurada''')
+        pacientes = cur.fetchall()
+
+        for paciente in pacientes:
+
+
+            id_paciente = paciente['ID']  # Usar 'ID' en lugar de 'id'
+            resultado_preventix = paciente[
+                'RESULTADO_NUMERICO_PREVENTIX']  # Reemplaza 'RESULTADO_NUMERICO_PREVENTIX' con el nombre real de la columna
+
+            # Obtén los valores de WesternBlot y Elisas (reemplaza los nombres de las columnas según corresponda)
+            western_blot = paciente['WesternBlot']
+            elisas = paciente['Elisas']
+
+            if western_blot > 1.4 or elisas > 34:
+                nuevo_valor = 101
+                nuevo_preventix = 'POSITIVO'
+            elif 1 <= western_blot <= 1.4 or 1 <= elisas <= 34:
+                nuevo_valor = 100
+                nuevo_preventix = 'NEGATIVO'
+            elif western_blot < 1:
+                nuevo_valor = 102
+                nuevo_preventix = 'VALIDACION'
+            else:
+                nuevo_valor = resultado_preventix
+                nuevo_preventix = paciente['PREVENTIX']  # Mantener el valor actual de PREVENTIX
+
+                # Actualiza los valores en la base de datos
+            cur.execute('''UPDATE pacientesdepurada
+                                       SET RESULTADO_NUMERICO_PREVENTIX = %s, PREVENTIX = %s
+                                       WHERE ID = %s''', (nuevo_valor, nuevo_preventix, id_paciente))
+
+        # Realiza la confirmación de los cambios en la base de datos
+        mysql.connection.commit()
+        cur.close()
+        return True
+    except Exception as e:
+        # Manejo de errores, puedes agregar un registro de errores o realizar otras acciones según sea necesario.
+        print(str(e))
+        return False
+
+@app.route('/actualizar_resultados', methods=['GET'])
+def actualizar_resultados():
+    if actualizar_resultados_numericos():
+        return redirect(url_for('Tablageneral'))
+    else:
+        return 'Error al actualizar resultados'
+
+
+def actualizar_resultados_numericos(valorWestern, valorElisas):
+    try:
+        cur = mysql.connection.cursor()
+
+        # Realiza la consulta a la base de datos
+        cur.execute('''SELECT * FROM pacientesdepurada''')
+        pacientes = cur.fetchall()
+
+        for paciente in pacientes:
+            id_paciente = paciente['ID']  # Usar 'ID' en lugar de 'id'
+            resultado_preventix = paciente[
+                'RESULTADO_NUMERICO_PREVENTIX']  # Reemplaza 'RESULTADO_NUMERICO_PREVENTIX' con el nombre real de la columna
+
+            # Obtén los valores de WesternBlot y Elisas (reemplaza los nombres de las columnas según corresponda)
+            western_blot = paciente['WesternBlot']
+            elisas = paciente['Elisas']
+
+            # Aplica las condiciones y actualiza el valor de RESULTADO_NUMERICO_PREVENTIX
+
+            if western_blot > valorWestern or elisas > valorElisas:
+                nuevo_valor = 101
+                nuevo_preventix = 'POSITIVO'
+            elif 1 <= western_blot <= valorWestern or 1 <= elisas <= valorElisas:
+                nuevo_valor = 100
+                nuevo_preventix = 'NEGATIVO'
+            elif western_blot < 1:
+                nuevo_valor = 102
+                nuevo_preventix = 'VALIDACION'
+            else:
+                nuevo_valor = resultado_preventix
+                nuevo_preventix = paciente['PREVENTIX']  # Mantener el valor actual de PREVENTIX
+
+                # Actualiza los valores en la base de datos
+            cur.execute('''UPDATE pacientesdepurada
+                                       SET RESULTADO_NUMERICO_PREVENTIX = %s, PREVENTIX = %s
+                                       WHERE ID = %s''', (nuevo_valor, nuevo_preventix, id_paciente))
+
+        # Realiza la confirmación de los cambios en la base de datos
+        mysql.connection.commit()
+        cur.close()
+        return True
+    except Exception as e:
+        # Manejo de errores, puedes agregar un registro de errores o realizar otras acciones según sea necesario.
+        print(str(e))
+        return False
+
+
+@app.route('/actualizar_resultados_numericosptc', methods=['POST'])
+def actualizar_resultados_numericosptc():
+    try:
+        valorWestern = float(request.form['valorWestern'])
+        valorElisas = float(request.form['valorElisas'])
+
+        if actualizar_resultados_numericos(valorWestern, valorElisas):
+            return redirect(url_for('Tablageneral'))
+        else:
+            return 'Error al actualizar resultados'
+    except Exception as e:
+        # Manejo de errores, puedes agregar un registro de errores o realizar otras acciones según sea necesario.
+        print(str(e))
+        return 'Error al actualizar resultados'
 
 
 @app.route('/delete/<string:id>', methods=['POST', 'GET'])

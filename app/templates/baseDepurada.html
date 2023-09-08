@@ -1,7 +1,9 @@
 {% extends "layout.html" %} {% block body %} <div class="row w-100" style="padding-top: 10%">
   <div class="col w-100">
 
-    <div class="container centered">
+    <button id="toggleButton">Mostrar/Ocultar Nomenglatura</button>
+  <button id="toggleButton2">Calcular Preventix Pto. Corte</button>
+    <div class="container centered" id="container" style="display: none;">
       <table class="fl-table">
           <thead>
         <tr style="background-color: darkblue; color: white; font-weight: bold">
@@ -334,9 +336,21 @@
 
 
   </div>
+  <div id="formcorte" style="display: none;">
+    <form action="/actualizar_resultados_numericosptc" method="POST">
+    <label for="valorWestern">WesternBlot:</label>
+    <input type="number" step="0.01" name="valorWestern" id="valorWestern" required><br><br>
+
+    <label for="valorElisas">Elisas:</label>
+    <input type="number" step="0.01" name="valorElisas" id="valorElisas" required><br><br>
+
+    <input type="submit" value="Actualizar Resultados">
+</form>
+</div>
     <table class="fl-table" style="padding-top: 50%">
       <h1 style="text-align: center; color: white">Pacientes </h1>
     <a href="/export_excelCompleto" class="btn btn-secondary" style=" position: center">Exportar a Excel</a>
+    <a href="/actualizar_resultados" class="btn btn-secondary" style=" position: center">Actualizar Preventix p. corte</a>
 
       <thead>
         <tr style="background-color: darkblue; color: white; font-weight: bold">
@@ -384,4 +398,33 @@
 
 
   </div>
-</div> {% endblock %}
+</div>
+<script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const toggleButton = document.getElementById("toggleButton");
+            const container = document.getElementById("container");
+
+            toggleButton.addEventListener("click", function() {
+                if (container.style.display === "none" || container.style.display === "") {
+                    container.style.display = "block";
+                } else {
+                    container.style.display = "none";
+                }
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const toggleButton2 = document.getElementById("toggleButton2");
+            const container = document.getElementById("formcorte");
+
+            toggleButton2.addEventListener("click", function() {
+                if (container.style.display === "none" || container.style.display === "") {
+                    container.style.display = "block";
+                } else {
+                    container.style.display = "none";
+                }
+            });
+        });
+    </script>
+{% endblock %}
