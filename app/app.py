@@ -288,7 +288,7 @@ def actualizar_resultados():
         return 'Error al actualizar resultados'
 
 
-def actualizar_resultados_numericos(valorWestern, valorElisas):
+def actualizar_resultados_numericosptc(valorWestern, valorElisas):
     try:
         cur = mysql.connection.cursor()
 
