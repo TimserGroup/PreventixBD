@@ -10,10 +10,10 @@ from dotenv import load_dotenv
 import os
 from io import BytesIO
 from scipy.stats import norm
-# from sklearn.linear_model import LogisticRegression
-# from sklearn.metrics import roc_curve, roc_auc_score
-# from sklearn.model_selection import train_test_split
-# from sklearn.preprocessing import LabelEncoder
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import roc_curve, roc_auc_score
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
 
 load_dotenv()
 
