@@ -1,0 +1,149 @@
+{% extends "layoutd.html" %} {% block body %}
+
+        <div class="container" style="padding-top: 150px; ">
+  <form method="POST" action="/procesarD">
+    <div class="row">
+      <div class="col-sm">
+        <select name="opcion1" class="select">
+          <option value="RESULTADO_NUMERICO_PREVENTIX">PREVENTIX</option>
+          <option value="RESULTADO_NUMERICO_VPH">VPH</option>
+          <option value="RESULTADO_NUMERICO_PAP">Citología Líquida</option>net <option value="resultado_numerico_colposcopia">Colposcopia</option>
+          <option value="Resultado_num_biopsia">Biopsia</option>
+        </select>
+      </div>
+      <div class="col-sm">
+        <select name="opcion2" class="select">
+          <option value="resultado_numerico_colposcopia">Colposcopia</option>
+          <option value="RESULTADO_NUMERICO_PREVENTIX">PREVENTIX</option>
+          <option value="RESULTADO_NUMERICO_VPH">VPH</option>
+          <option value="RESULTADO_NUMERICO_PAP">Citología Líquida</option>
+          <option value="Resultado_num_biopsia">Biopsia</option>
+        </select>
+      </div>
+      <div class="col-sm">
+        <input type="submit" value="Calcular Pruebas" class="">
+      </div>
+    </div>
+  </form>
+  <div class="container text-center" style="padding-top: 40px; color: white; ">
+  </div>
+  <div class="container" style="padding-top: 15px;">
+    <div class="row">
+      <div class="col">
+        <div class="table-users">
+          <div class="header">{{ opcionr1 }} vs {{ opcionr2 }}</div>
+          <table cellspacing="0">
+              <tr>
+              <th ></th>
+              <th ></th>
+              <th colspan="2">{{ opcionr2 }} </th>
+              <th></th>
+            </tr>
+            <tr>
+              <th ></th>
+              <th ></th>
+              <th>+</th>
+              <th>-</th>
+              <th>Total</th>
+            </tr>
+            <tr>
+              <td rowspan="2"> {{ opcionr1 }} </td>
+              <td> + </td>
+              <td>{{ consulta01 }}</td>
+              <td>{{ consulta02 }}</td>
+              <td>{{ consulta01 + consulta02 }}</td>
+            </tr>
+            <tr>
+              <th> - </th>
+              <td>{{ consulta03 }} </td>
+              <td>{{ consulta04 }}</td>
+              <td>{{ consulta03 + consulta04 }}</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>Total</td>
+                <td>{{ consulta01 + consulta03 }}</td>
+                <td>{{ consulta02 + consulta04 }}</td>
+                <td>{{ consulta01 + consulta02 + consulta03 + consulta04 }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="col">
+        <div class="table-users">
+          <div class="header">Analisis</div>
+          <table>
+              <tr>
+                  <td>P_Value</td>
+                  <td>{{ p_value }}</td>
+              </tr>
+              <tr>
+                  <td>Sensibilidad</td>
+                  <td>{{ sensibilidad }} %</td>
+              </tr>
+              <tr>
+                  <td>Especificidad</td>
+                  <td>{{ especificidad }} %</td>
+              </tr>
+              <tr>
+                  <td>Valor Predictivo Positivo</td>
+                  <td>{{ vpp }} %</td>
+              </tr>
+              <tr>
+                  <td>Valor Predictivo Negativo</td>
+                  <td>{{ vpn }} %</td>
+              </tr>
+              <tr>
+                  <td>Cociente de Probabilidad para un test positivo</td>
+                  <td>{{ rpp }} </td>
+              </tr>
+              <tr>
+                  <td>Cociente de Probabilidad para un test negativo</td>
+                  <td>{{ rpn }} </td>
+              </tr>
+
+
+
+          </table>
+        </div>
+
+          <div class="table-users">
+          <div class="header">MCNemar</div>
+          <table>
+              <tr>
+                  <td>Número de pares concordantes </td>
+                  <td>{{ consulta01 }} + {{ consulta04 }} = {{ consulta01 + consulta04 }}</td>
+              </tr>
+              <tr>
+                  <td>Número de pares discordantes</td>
+                  <td>{{ consulta02 }} + {{ consulta03 }} = {{ consulta02 + consulta03 }}</td>
+              </tr>
+              <tr>
+                  <td>n</td>
+                  <td>{{ consulta02 + consulta03 + consulta01 + consulta04}}</td>
+              </tr>
+              <tr>
+                  <td>Chi cuadrada: X2</td>
+                  <td>{{ chimc }}</td>
+              </tr>
+              <tr>
+                  <td>P_Value</td>
+                  <td>{{ pval }}</td>
+              </tr>
+              <tr>
+                  <td>Potencia <br> <br> Calculado con la aproximación del Dr. Greenwell.</td>
+                  <td>{{ potenciadr }} %</td>
+              </tr>
+
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+    </div>
+
+
+
+{% endblock %}
+
+

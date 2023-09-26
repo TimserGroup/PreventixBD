@@ -3,13 +3,17 @@ import numpy as np
 import pandas as pd
 from scipy.stats import chi2_contingency
 from scipy.stats import chi2, norm, binom
-
+import matplotlib.pyplot as plt
 from scipy.special import erfc
 from flask_mysqldb import MySQL
 from dotenv import load_dotenv
 import os
 from io import BytesIO
 from scipy.stats import norm
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import roc_curve, roc_auc_score
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
 
 load_dotenv()
 
@@ -403,6 +407,75 @@ def depurado():
 
     return render_template('beforeCalc.html')
 
+@app.route('/depuradoD', methods=['GET', 'POST'])
+def depuradoD():
+    if not check_login():
+        return redirect(url_for('login'))
+    cur = mysql.connection.cursor()
+    cur.execute('SELECT * FROM pacientesdepurada')
+    registros = cur.fetchall()
+
+    # data = [[15, 18], [10, 24]]
+    # print(data)
+    # # Realizar la prueba de chi-cuadrado
+    # chi2, p_value, dof, expected = chi2_contingency(data, correction=False)
+    #
+    # # Imprimir los resultados
+    # print("Estadística de chi-cuadrado:", chi2)
+    # print("Valor p:", p_value)
+
+    return render_template('beforeCalcD.html')
+
+def curvaROC():
+    # Crear un cursor
+    cur = mysql.connection.cursor()
+
+    # Consulta SQL para seleccionar los datos de la tabla
+    sql_query = "SELECT PREVENTIX, WesternBlot, Elisas FROM pacientesdepurada"
+
+    # Ejecutar la consulta SQL y obtener los registros
+    cur.execute(sql_query)
+    registros = cur.fetchall()
+
+    # Cerrar la conexión a la base de datos
+    cur.close()
+
+    # Crear un DataFrame de pandas a partir de los registros
+    import pandas as pd
+    data = pd.DataFrame(registros)
+
+    # Codificar las etiquetas de PREVENTIX
+    label_encoder = LabelEncoder()
+    data['PREVENTIX'] = label_encoder.fit_transform(data['PREVENTIX'])
+
+    # Seleccionar las características (features) y la variable objetivo
+    X = data[['WesternBlot', 'Elisas']]
+    y = data['PREVENTIX']
+
+    # Dividir los datos en conjuntos de entrenamiento y prueba
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    # Entrenar un modelo de regresión logística (puedes usar otro modelo si lo prefieres)
+    model = LogisticRegression()
+    model.fit(X_train, y_train)
+
+    # Obtener probabilidades de predicción para el conjunto de prueba
+    probs = model.predict_proba(X_test)[:, 1]
+
+    # Calcular la curva ROC y el AUC (Área bajo la curva ROC)
+    fpr, tpr, thresholds = roc_curve(y_test, probs)
+    roc_auc = roc_auc_score(y_test, probs)
+
+    # Dibujar la curva ROC
+    plt.figure(figsize=(8, 6))
+    plt.plot(fpr, tpr, color='darkorange', lw=2, label=f'AUC = {roc_auc:.2f}')
+    plt.plot([0, 1], [0, 1], color='navy', lw=2, linestyle='--')
+    plt.xlabel('Tasa de Falsos Positivos (1 - Especificidad)')
+    plt.ylabel('Tasa de Verdaderos Positivos (Sensibilidad)')
+    plt.title('Curva ROC')
+    plt.legend(loc='lower right')
+    plt.show()
+
 
 @app.route('/procesar', methods=['GET', 'POST'])
 def procesar():
@@ -428,23 +501,72 @@ def procesar():
 
     ####
     # Construir y ejecutar las consultas SQL
-    consulta_1 = f"SELECT COUNT(*) FROM pacientesdepurada WHERE {opcion1} = '101' AND {opcion2} = '101'"
+    consulta_1 = f"SELECT COUNT(*) as count, GROUP_CONCAT(WesternBlot) as elisas FROM pacientesdepurada WHERE {opcion1} = '101' AND {opcion2} = '101'"
     cur.execute(consulta_1)
-    consulta01 = cur.fetchall()[0]['COUNT(*)']
+    result = cur.fetchone()
+    consulta01 = result['count']
+    elisas_values = result['elisas'].split(',') if result['elisas'] else []
 
-    consulta_2 = f"SELECT COUNT(*) FROM pacientesdepurada WHERE {opcion1} = '101' AND {opcion2} = '100'"
+    VP = elisas_values
+
+    consulta_2 = f"SELECT COUNT(*) as count, GROUP_CONCAT(WesternBlot) as elisas FROM pacientesdepurada WHERE {opcion1} = '101' AND {opcion2} = '100'"
     cur.execute(consulta_2)
-    consulta02 = cur.fetchall()[0]['COUNT(*)']
+    result = cur.fetchone()
+    consulta02 = result['count']
+    elisas_values1 = result['elisas'].split(',') if result['elisas'] else []
+    print(elisas_values1)
 
-    consulta_3 = f"SELECT COUNT(*) FROM pacientesdepurada WHERE {opcion1} = '100' AND {opcion2} = '101'"
+    FP = elisas_values1
+
+    consulta_3 = f"SELECT COUNT(*) as count, GROUP_CONCAT(WesternBlot) as elisas FROM pacientesdepurada WHERE {opcion1} = '100' AND {opcion2} = '101'"
     cur.execute(consulta_3)
-    consulta03 = cur.fetchall()[0]['COUNT(*)']
+    result = cur.fetchone()
+    consulta03 = result['count']
+    elisas_values2 = result['elisas'].split(',') if result['elisas'] else []
 
-    consulta_4 = f"SELECT COUNT(*) FROM pacientesdepurada WHERE {opcion1} = '100' AND {opcion2} = '100'"
+    FN = elisas_values2
+
+    consulta_4 = f"SELECT COUNT(*) as count, GROUP_CONCAT(WesternBlot) as elisas FROM pacientesdepurada WHERE {opcion1} = '100' AND {opcion2} = '100'"
     cur.execute(consulta_4)
-    consulta04 = cur.fetchall()[0]['COUNT(*)']
+    result = cur.fetchone()
+    consulta04 = result['count']
+    elisas_values3 = result['elisas'].split(',') if result['elisas'] else []
+
+    VN = elisas_values3
 
     cur.close()
+
+    # VP = [float(valor) for valor in VP]
+    # FN = [float(valor) for valor in FN]
+    # VN = [float(valor) for valor in VN]
+    # FP = [float(valor) for valor in FP]
+    #
+    # sensibilidad2 = [vp / (vp + fn) for vp, fn in zip(VP, FN)]
+    # especificidad2 = [vn / (vn + fp) for vn, fp in zip(VN, FP)]
+    #
+    #
+    #
+    # # Crear una lista para 1 - especificidad
+    # un_minus_especificidad2 = [1 - esp for esp in especificidad2]
+    #
+    # # Después de calcular sensibilidad2 y especificidad2, crea una lista de pares correspondientes
+    # roc_curve = list(zip(un_minus_especificidad2, sensibilidad2))
+    #
+    # # Separa la lista de pares en dos listas separadas para el trazado
+    # falsos_positivos, verdaderos_positivos = zip(*roc_curve)
+    #
+    # # Dibuja la curva ROC
+    # plt.figure(figsize=(6, 6))
+    # plt.plot(falsos_positivos, verdaderos_positivos, marker='o', linestyle='-', color='b')
+    # plt.xlabel('Tasa de Falsos Positivos (FPR)')
+    # plt.ylabel('Tasa de Verdaderos Positivos (TPR)')
+    # plt.title('Curva ROC')
+    # plt.grid(True)
+    #
+    # # Calcula el área bajo la curva ROC (AUC)
+    # auc = np.trapz(verdaderos_positivos, falsos_positivos)
+    # print(f'Área bajo la curva ROC (AUC): {auc:.2f}')
+    # plt.show()
 
 
 
@@ -529,6 +651,7 @@ def procesar():
     else:
         rpn = 0.0
 
+
     # print(data)
     # Realizar la prueba de chi-cuadrado
     chi2, p_value, dof, expected = chi2_contingency(data, correction=False)
@@ -541,7 +664,192 @@ def procesar():
                            consulta03=consulta03, consulta04=consulta04, chi2=chi2, p_value=p_value, opcion2=opcion2,
                            opcion1=opcion1, opcionr1=opcionr1, opcionr2=opcionr2, power=power, p_value1 = p_value1,potenciadr = potenciadr, chimc=chimc,pval=pval)
 
+@app.route('/procesarD', methods=['GET', 'POST'])
+def procesarD():
+    if not check_login():
+        return redirect(url_for('login'))
+    cur = mysql.connection.cursor()
+    cur.execute('SELECT * FROM pacientesdepurada')
 
+    opcion1 = request.form['opcion1']
+    opcion2 = request.form['opcion2']
+    # print(opcion1)
+    # print(opcion2)
+    opciones = {
+        'RESULTADO_NUMERICO_PREVENTIX': 'PREVENTIX',
+        'RESULTADO_NUMERICO_VPH': 'VPH',
+        'RESULTADO_NUMERICO_PAP': 'Citología Líquida',
+        'Resultado_num_biopsia': 'Biopsia',
+        'resultado_numerico_colposcopia': 'Colposcopia'
+    }
+
+    opcionr1 = opciones.get(opcion1, opcion1)
+    opcionr2 = opciones.get(opcion2, opcion2)
+
+    ####
+    # Construir y ejecutar las consultas SQL
+    consulta_1 = f"SELECT COUNT(*) as count, GROUP_CONCAT(WesternBlot) as elisas FROM pacientesdepurada WHERE {opcion1} = '101' AND {opcion2} = '101'"
+    cur.execute(consulta_1)
+    result = cur.fetchone()
+    consulta01 = result['count']
+    elisas_values = result['elisas'].split(',') if result['elisas'] else []
+
+    VP = elisas_values
+
+    consulta_2 = f"SELECT COUNT(*) as count, GROUP_CONCAT(WesternBlot) as elisas FROM pacientesdepurada WHERE {opcion1} = '101' AND {opcion2} = '100'"
+    cur.execute(consulta_2)
+    result = cur.fetchone()
+    consulta02 = result['count']
+    elisas_values1 = result['elisas'].split(',') if result['elisas'] else []
+    print(elisas_values1)
+
+    FP = elisas_values1
+
+    consulta_3 = f"SELECT COUNT(*) as count, GROUP_CONCAT(WesternBlot) as elisas FROM pacientesdepurada WHERE {opcion1} = '100' AND {opcion2} = '101'"
+    cur.execute(consulta_3)
+    result = cur.fetchone()
+    consulta03 = result['count']
+    elisas_values2 = result['elisas'].split(',') if result['elisas'] else []
+
+    FN = elisas_values2
+
+    consulta_4 = f"SELECT COUNT(*) as count, GROUP_CONCAT(WesternBlot) as elisas FROM pacientesdepurada WHERE {opcion1} = '100' AND {opcion2} = '100'"
+    cur.execute(consulta_4)
+    result = cur.fetchone()
+    consulta04 = result['count']
+    elisas_values3 = result['elisas'].split(',') if result['elisas'] else []
+
+    VN = elisas_values3
+
+    cur.close()
+
+    VP = [float(valor) for valor in VP]
+    FN = [float(valor) for valor in FN]
+    VN = [float(valor) for valor in VN]
+    FP = [float(valor) for valor in FP]
+
+    sensibilidad2 = [vp / (vp + fn) for vp, fn in zip(VP, FN)]
+    especificidad2 = [vn / (vn + fp) for vn, fp in zip(VN, FP)]
+
+
+
+    # Crear una lista para 1 - especificidad
+    # un_minus_especificidad2 = [1 - esp for esp in especificidad2]
+
+    # Después de calcular sensibilidad2 y especificidad2, crea una lista de pares correspondientes
+    # roc_curve = list(zip(un_minus_especificidad2, sensibilidad2))
+
+    # Separa la lista de pares en dos listas separadas para el trazado
+    # falsos_positivos, verdaderos_positivos = zip(*roc_curve)
+
+    # # Dibuja la curva ROC
+    # plt.figure(figsize=(6, 6))
+    # plt.plot(falsos_positivos, verdaderos_positivos, marker='o', linestyle='-', color='b')
+    # plt.xlabel('Tasa de Falsos Positivos (FPR)')
+    # plt.ylabel('Tasa de Verdaderos Positivos (TPR)')
+    # plt.title('Curva ROC')
+    # plt.grid(True)
+    #
+    # # Calcula el área bajo la curva ROC (AUC)
+    # auc = np.trapz(verdaderos_positivos, falsos_positivos)
+    # print(f'Área bajo la curva ROC (AUC): {auc:.2f}')
+    # plt.show()
+
+
+
+
+
+
+
+    # # Valores de la tabla 2x2
+    # c1 = 15  # Resultados concordantes
+    # c2 = 21  # Resultados discordantes
+
+    # Calcula el valor p y el poder de la prueba
+    p_value1, power = mcnemar_test(consulta02, consulta03)
+    # print(consulta02)
+    # print(consulta03)
+
+    # print("Valor p:", p_value)
+    # print("Poder de la prueba:", power)
+    # Example usage:
+    x = np.array([[consulta01, consulta02], [consulta03, consulta04]])
+    # Datos de la matriz PREVvsCOLP
+    PREVvsCOLP = np.array([[consulta01, consulta03], [consulta02, consulta04]])
+
+
+
+    # Realizar la prueba McNemar
+    chi2_stat, p_value = chi2_contingency(PREVvsCOLP, correction=True)[:2]
+
+
+    # Calcular el poder de la prueba McNemar usando la función pwr_mcnemar
+    n = consulta04 + consulta03 + consulta02 + consulta01
+    p10 = consulta02 / n
+    p01 = consulta03 / n
+    result = pwr_mcnemar(p10, p01, alpha=0.05, n=n)
+    # print(
+    #     f"Resultado: Poder de la prueba {result['power']:.4f} o {result['power'] * 100:.2f}%. Calculado con la aproximación del Dr. Greenwell.")
+    # Calcular la potencia como porcentaje
+    potenciadr = result['power'] * 100
+
+    # Ahora puedes utilizar potenciadr para lo que necesites
+    chimc = round(chi2_stat,5)
+    pval = round(p_value, 5)
+
+
+
+
+    data = [[consulta01, consulta02], [consulta03, consulta04]]
+    # sensibilidad = consulta01 / (consulta01 + consulta03)
+    # especificidad = consulta04 / (consulta02 + consulta04)
+    # vpp = consulta01 / (consulta01 + consulta02)
+    # vpn = consulta04 / (consulta03 + consulta04)
+    # rpp = sensibilidad / (1 - especificidad)
+    # rpn = (1 - sensibilidad) / especificidad
+    if consulta01 + consulta03 != 0:
+        sens = (consulta01 / (consulta01 + consulta03)) * 100
+        sensibilidad = round(sens, 2)
+    else:
+        sensibilidad = 0.0
+
+    if consulta02 + consulta04 != 0:
+        especificidad = round(((consulta04 / (consulta02 + consulta04)) * 100), 2)
+    else:
+        especificidad = 0.0
+
+    if consulta01 + consulta02 != 0:
+        vpp = round(((consulta01 / (consulta01 + consulta02)) * 100), 2)
+    else:
+        vpp = 0.0
+
+    if consulta03 + consulta04 != 0:
+        vpn = round(((consulta04 / (consulta03 + consulta04)) * 100), 2)
+    else:
+        vpn = 0.0
+
+    if 1 - especificidad != 0:
+        rpp = round((sensibilidad / (1 - especificidad)), 2)
+    else:
+        rpp = 0.0
+
+    if especificidad != 0:
+        rpn = round(((1 - sensibilidad) / especificidad), 2)
+    else:
+        rpn = 0.0
+
+
+    # print(data)
+    # Realizar la prueba de chi-cuadrado
+    chi2, p_value, dof, expected = chi2_contingency(data, correction=False)
+    p_value = round(p_value, 4)
+
+    # Realizar el cálculo para obtener el valor P_value
+
+    return render_template('busquedaPersonalizadaD.html', vpp=vpp, vpn=vpn, rpp=rpp, rpn=rpn, sensibilidad=sensibilidad,
+                           especificidad=especificidad, consulta01=consulta01, consulta02=consulta02,
+                           consulta03=consulta03, consulta04=consulta04, chi2=chi2, p_value=p_value, opcion2=opcion2,
+                           opcion1=opcion1, opcionr1=opcionr1, opcionr2=opcionr2, power=power, p_value1 = p_value1,potenciadr = potenciadr, chimc=chimc,pval=pval)
 
 def mcnemar_test(c1, c2):
     # Calcula los valores necesarios para la prueba de McNemar
@@ -626,6 +934,18 @@ def Tablageneral():
 
     cur.close()
     return render_template('baseDepurada.html',  pacientesTotales=data4)
+
+
+@app.route('/doctores')
+def doctores():
+    if not check_login():
+        return redirect(url_for('login'))
+    cur = mysql.connection.cursor()
+    cur.execute('''SELECT * FROM pacientesdepurada ''')
+    data4 = cur.fetchall()
+
+    cur.close()
+    return render_template('doctores.html',  pacientesTotales=data4)
 
 @app.route('/export_excel')
 def export_excel():
