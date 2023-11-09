@@ -400,13 +400,11 @@ def depurado():
     registros = cur.fetchall()
 
     # data = [[15, 18], [10, 24]]
-    # print(data)
+
     # # Realizar la prueba de chi-cuadrado
     # chi2, p_value, dof, expected = chi2_contingency(data, correction=False)
     #
-    # # Imprimir los resultados
-    # print("Estadística de chi-cuadrado:", chi2)
-    # print("Valor p:", p_value)
+
 
     return render_template('beforeCalc.html')
 
@@ -419,13 +417,12 @@ def depuradoD():
     registros = cur.fetchall()
 
     # data = [[15, 18], [10, 24]]
-    # print(data)
+
     # # Realizar la prueba de chi-cuadrado
     # chi2, p_value, dof, expected = chi2_contingency(data, correction=False)
     #
     # # Imprimir los resultados
-    # print("Estadística de chi-cuadrado:", chi2)
-    # print("Valor p:", p_value)
+
 
     return render_template('beforeCalcD.html')
 
@@ -489,8 +486,7 @@ def procesar():
 
     opcion1 = request.form['opcion1']
     opcion2 = request.form['opcion2']
-    # print(opcion1)
-    # print(opcion2)
+
     opciones = {
         'RESULTADO_NUMERICO_PREVENTIX': 'PREVENTIX',
         'RESULTADO_NUMERICO_VPH': 'VPH',
@@ -518,7 +514,7 @@ def procesar():
     result = cur.fetchone()
     consulta02 = result['count']
     elisas_values1 = result['elisas'].split(',') if result['elisas'] else []
-    print(elisas_values1)
+
 
     FP = elisas_values1
 
@@ -540,55 +536,16 @@ def procesar():
 
     cur.close()
 
-    # VP = [float(valor) for valor in VP]
-    # FN = [float(valor) for valor in FN]
-    # VN = [float(valor) for valor in VN]
-    # FP = [float(valor) for valor in FP]
-    #
-    # sensibilidad2 = [vp / (vp + fn) for vp, fn in zip(VP, FN)]
-    # especificidad2 = [vn / (vn + fp) for vn, fp in zip(VN, FP)]
-    #
-    #
-    #
-    # # Crear una lista para 1 - especificidad
-    # un_minus_especificidad2 = [1 - esp for esp in especificidad2]
-    #
-    # # Después de calcular sensibilidad2 y especificidad2, crea una lista de pares correspondientes
-    # roc_curve = list(zip(un_minus_especificidad2, sensibilidad2))
-    #
-    # # Separa la lista de pares en dos listas separadas para el trazado
-    # falsos_positivos, verdaderos_positivos = zip(*roc_curve)
-    #
-    # # Dibuja la curva ROC
-    # plt.figure(figsize=(6, 6))
-    # plt.plot(falsos_positivos, verdaderos_positivos, marker='o', linestyle='-', color='b')
-    # plt.xlabel('Tasa de Falsos Positivos (FPR)')
-    # plt.ylabel('Tasa de Verdaderos Positivos (TPR)')
-    # plt.title('Curva ROC')
-    # plt.grid(True)
-    #
-    # # Calcula el área bajo la curva ROC (AUC)
-    # auc = np.trapz(verdaderos_positivos, falsos_positivos)
-    # print(f'Área bajo la curva ROC (AUC): {auc:.2f}')
-    # plt.show()
-
-
-
-
-
-
-
     # # Valores de la tabla 2x2
     # c1 = 15  # Resultados concordantes
     # c2 = 21  # Resultados discordantes
 
     # Calcula el valor p y el poder de la prueba
-    p_value1, power = mcnemar_test(consulta02, consulta03)
-    # print(consulta02)
-    # print(consulta03)
 
-    # print("Valor p:", p_value)
-    # print("Poder de la prueba:", power)
+
+    p_value1, power = mcnemar_test(consulta02, consulta03)
+
+
     # Example usage:
     x = np.array([[consulta01, consulta02], [consulta03, consulta04]])
     # Datos de la matriz PREVvsCOLP
@@ -605,8 +562,7 @@ def procesar():
     p10 = consulta02 / n
     p01 = consulta03 / n
     result = pwr_mcnemar(p10, p01, alpha=0.05, n=n)
-    # print(
-    #     f"Resultado: Poder de la prueba {result['power']:.4f} o {result['power'] * 100:.2f}%. Calculado con la aproximación del Dr. Greenwell.")
+
     # Calcular la potencia como porcentaje
     potenciadr = result['power'] * 100
 
@@ -656,7 +612,7 @@ def procesar():
         rpn = 0.0
 
 
-    # print(data)
+
     # Realizar la prueba de chi-cuadrado
     chi2, p_value, dof, expected = chi2_contingency(data, correction=False)
     p_value = round(p_value, 4)
@@ -677,8 +633,7 @@ def procesarD():
 
     opcion1 = request.form['opcion1']
     opcion2 = request.form['opcion2']
-    # print(opcion1)
-    # print(opcion2)
+
     opciones = {
         'RESULTADO_NUMERICO_PREVENTIX': 'PREVENTIX',
         'RESULTADO_NUMERICO_VPH': 'VPH',
@@ -705,7 +660,7 @@ def procesarD():
     result = cur.fetchone()
     consulta02 = result['count']
     elisas_values1 = result['elisas'].split(',') if result['elisas'] else []
-    # print(elisas_values1)
+
 
     FP = elisas_values1
 
@@ -756,7 +711,7 @@ def procesarD():
     #
     # # Calcula el área bajo la curva ROC (AUC)
     # auc = np.trapz(verdaderos_positivos, falsos_positivos)
-    # print(f'Área bajo la curva ROC (AUC): {auc:.2f}')
+
     # plt.show()
 
 
@@ -771,11 +726,7 @@ def procesarD():
 
     # Calcula el valor p y el poder de la prueba
     p_value1, power = mcnemar_test(consulta02, consulta03)
-    # print(consulta02)
-    # print(consulta03)
 
-    # print("Valor p:", p_value)
-    # print("Poder de la prueba:", power)
     # Example usage:
     x = np.array([[consulta01, consulta02], [consulta03, consulta04]])
     # Datos de la matriz PREVvsCOLP
@@ -792,8 +743,7 @@ def procesarD():
     p10 = consulta02 / n
     p01 = consulta03 / n
     result = pwr_mcnemar(p10, p01, alpha=0.05, n=n)
-    # print(
-    #     f"Resultado: Poder de la prueba {result['power']:.4f} o {result['power'] * 100:.2f}%. Calculado con la aproximación del Dr. Greenwell.")
+
     # Calcular la potencia como porcentaje
     potenciadr = result['power'] * 100
 
@@ -843,7 +793,6 @@ def procesarD():
         rpn = 0.0
 
 
-    # print(data)
     # Realizar la prueba de chi-cuadrado
     chi2, p_value, dof, expected = chi2_contingency(data, correction=False)
     p_value = round(p_value, 4)
@@ -859,7 +808,13 @@ def mcnemar_test(c1, c2):
     # Calcula los valores necesarios para la prueba de McNemar
     n = c1 + c2  # Tamaño de la muestra
     b = c2 - c1  # Número de casos discordantes
-    chi2_value = b ** 2 / (c1 + c2)  # Valor de chi-cuadrado
+    if (c1 + c2) != 0:
+        chi2_value = b ** 2 / (c1 + c2)
+    else:
+        # Handle the case when the denominator is zero, for example, set chi2_value to a default value or raise an exception.
+        chi2_value = 0  # You can choose an appropriate default value.
+        # Alternatively, you can raise an exception to indicate an error.
+        # raise ValueError("Division by zero: c1 + c2 is zero.")
     p_value = 1 - chi2.cdf(chi2_value, 1)  # Valor p
 
     # Calcula el poder de la prueba
@@ -906,24 +861,24 @@ def Tablas():
                     FROM pacientesdepurada
                     WHERE RESULTADO_NUMERICO_PREVENTIX ='101' ''')
     data = cur.fetchall()
-    # print(data)
+
 
     cur.execute('''SELECT ID, RESULTADO_NUMERICO_PREVENTIX, RESULTADO_NUMERICO_VPH, RESULTADO_NUMERICO_PAP, resultado_numerico_colposcopia, Resultado_num_biopsia
                     FROM pacientesdepurada
                     WHERE Resultado_num_biopsia !='102' ''')
     data3 = cur.fetchall()
-    # print(data)
+
 
     cur.execute('''SELECT ID, RESULTADO_NUMERICO_PREVENTIX, RESULTADO_NUMERICO_VPH, RESULTADO_NUMERICO_PAP, resultado_numerico_colposcopia, Resultado_num_biopsia
                     FROM pacientesdepurada
                     WHERE RESULTADO_NUMERICO_VPH IN ('101') AND PREVENTIX = 'POSITIVO' ''')
     data1 = cur.fetchall()
-    # print(data1)
+
     cur.execute('''SELECT ID, RESULTADO_NUMERICO_PREVENTIX, RESULTADO_NUMERICO_VPH, RESULTADO_NUMERICO_PAP, resultado_numerico_colposcopia, Resultado_num_biopsia
                     FROM pacientesdepurada
                     WHERE RESULTADO_NUMERICO_VPH IN ('101') ''')
     data2 = cur.fetchall()
-    # print(data2)
+
     cur.close()
     return render_template('tablasLimpias.html', pacientesPREVENTIX=data, pacientesPREVVPH=data1, pacientesVPH=data2,
                            pacientesBiopsia=data3, pacientesTotales=data4)
