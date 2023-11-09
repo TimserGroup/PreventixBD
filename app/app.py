@@ -939,8 +939,6 @@ def Tablageneral():
 
 @app.route('/doctores')
 def doctores():
-    if not check_login():
-        return redirect(url_for('login'))
     cur = mysql.connection.cursor()
     cur.execute('''SELECT * FROM pacientesdepurada ''')
     data4 = cur.fetchall()
