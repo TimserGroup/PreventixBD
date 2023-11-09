@@ -163,6 +163,7 @@ def update_paciente(id):
         Resultado_num_biopsia = request.form['Resultado_num_biopsia']
         WesternBlot = request.form['WesternBlot']
         Elisas = request.form['Elisas']
+        P16 = request.form['P16']
 
         cur = mysql.connection.cursor()
         cur.execute('''
@@ -182,7 +183,8 @@ def update_paciente(id):
                 Resultado_biopsia_de_cervix = %(Resultado_biopsia_de_cervix)s,
                 Resultado_num_biopsia = %(Resultado_num_biopsia)s,
                 WesternBlot = %(WesternBlot)s,
-                Elisas = %(Elisas)s
+                Elisas = %(Elisas)s,
+                P16 = %(P16)s
             WHERE ID = %(ID)s
         ''',
                     {
@@ -200,7 +202,8 @@ def update_paciente(id):
                         'Resultado_biopsia_de_cervix': Resultado_biopsia_de_cervix,
                         'Resultado_num_biopsia': Resultado_num_biopsia,
                         'WesternBlot': WesternBlot,
-                        'Elisas': Elisas
+                        'Elisas': Elisas,
+                        'P16': P16
                     })
 
         flash('Paciente actualizado correctamente')
@@ -426,55 +429,55 @@ def depuradoD():
 
     return render_template('beforeCalcD.html')
 
-def curvaROC():
-    # Crear un cursor
-    cur = mysql.connection.cursor()
-
-    # Consulta SQL para seleccionar los datos de la tabla
-    sql_query = "SELECT PREVENTIX, WesternBlot, Elisas FROM pacientesdepurada"
-
-    # Ejecutar la consulta SQL y obtener los registros
-    cur.execute(sql_query)
-    registros = cur.fetchall()
-
-    # Cerrar la conexión a la base de datos
-    cur.close()
-
-    # Crear un DataFrame de pandas a partir de los registros
-    import pandas as pd
-    data = pd.DataFrame(registros)
-
-    # Codificar las etiquetas de PREVENTIX
-    label_encoder = LabelEncoder()
-    data['PREVENTIX'] = label_encoder.fit_transform(data['PREVENTIX'])
-
-    # Seleccionar las características (features) y la variable objetivo
-    X = data[['WesternBlot', 'Elisas']]
-    y = data['PREVENTIX']
-
-    # Dividir los datos en conjuntos de entrenamiento y prueba
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-    # Entrenar un modelo de regresión logística (puedes usar otro modelo si lo prefieres)
-    model = LogisticRegression()
-    model.fit(X_train, y_train)
-
-    # Obtener probabilidades de predicción para el conjunto de prueba
-    probs = model.predict_proba(X_test)[:, 1]
-
-    # Calcular la curva ROC y el AUC (Área bajo la curva ROC)
-    fpr, tpr, thresholds = roc_curve(y_test, probs)
-    roc_auc = roc_auc_score(y_test, probs)
-
-    # Dibujar la curva ROC
-    plt.figure(figsize=(8, 6))
-    plt.plot(fpr, tpr, color='darkorange', lw=2, label=f'AUC = {roc_auc:.2f}')
-    plt.plot([0, 1], [0, 1], color='navy', lw=2, linestyle='--')
-    plt.xlabel('Tasa de Falsos Positivos (1 - Especificidad)')
-    plt.ylabel('Tasa de Verdaderos Positivos (Sensibilidad)')
-    plt.title('Curva ROC')
-    plt.legend(loc='lower right')
-    plt.show()
+# def curvaROC():
+#     # Crear un cursor
+#     cur = mysql.connection.cursor()
+#
+#     # Consulta SQL para seleccionar los datos de la tabla
+#     sql_query = "SELECT PREVENTIX, WesternBlot, Elisas FROM pacientesdepurada"
+#
+#     # Ejecutar la consulta SQL y obtener los registros
+#     cur.execute(sql_query)
+#     registros = cur.fetchall()
+#
+#     # Cerrar la conexión a la base de datos
+#     cur.close()
+#
+#     # Crear un DataFrame de pandas a partir de los registros
+#     import pandas as pd
+#     data = pd.DataFrame(registros)
+#
+#     # Codificar las etiquetas de PREVENTIX
+#     label_encoder = LabelEncoder()
+#     data['PREVENTIX'] = label_encoder.fit_transform(data['PREVENTIX'])
+#
+#     # Seleccionar las características (features) y la variable objetivo
+#     X = data[['WesternBlot', 'Elisas']]
+#     y = data['PREVENTIX']
+#
+#     # Dividir los datos en conjuntos de entrenamiento y prueba
+#     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+#
+#     # Entrenar un modelo de regresión logística (puedes usar otro modelo si lo prefieres)
+#     model = LogisticRegression()
+#     model.fit(X_train, y_train)
+#
+#     # Obtener probabilidades de predicción para el conjunto de prueba
+#     probs = model.predict_proba(X_test)[:, 1]
+#
+#     # Calcular la curva ROC y el AUC (Área bajo la curva ROC)
+#     fpr, tpr, thresholds = roc_curve(y_test, probs)
+#     roc_auc = roc_auc_score(y_test, probs)
+#
+#     # Dibujar la curva ROC
+#     plt.figure(figsize=(8, 6))
+#     plt.plot(fpr, tpr, color='darkorange', lw=2, label=f'AUC = {roc_auc:.2f}')
+#     plt.plot([0, 1], [0, 1], color='navy', lw=2, linestyle='--')
+#     plt.xlabel('Tasa de Falsos Positivos (1 - Especificidad)')
+#     plt.ylabel('Tasa de Verdaderos Positivos (Sensibilidad)')
+#     plt.title('Curva ROC')
+#     plt.legend(loc='lower right')
+#     plt.show()
 
 
 @app.route('/procesar', methods=['GET', 'POST'])
