@@ -369,6 +369,7 @@
             <td style="color: white">Resultado Númerico Biopsia</td>
             <td style="color: white">Western Blot</td>
             <td style="color: white">ELisas</td>
+            <td style="color: white">P16</td>
         </tr>
       </thead>
       <tbody> {% for paciente in pacientesTotales %} <tr>
@@ -387,6 +388,7 @@
             <td>{{ paciente.Resultado_num_biopsia }}</td>
             <td>{{ paciente.WesternBlot }}</td>
             <td>{{ paciente.Elisas }}</td>
+            <td>{{ paciente.P16 }}</td>
             <td>
             <a href="/edit/{{paciente.ID}}" class="btn btn-secondary">Editar</a>
             <a href="/delete/{{paciente.ID}}" class="btn btn-danger btn-delete">Borrar</a>

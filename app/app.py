@@ -493,7 +493,8 @@ def procesar():
         'RESULTADO_NUMERICO_VPH': 'VPH',
         'RESULTADO_NUMERICO_PAP': 'Citología Líquida',
         'Resultado_num_biopsia': 'Biopsia',
-        'resultado_numerico_colposcopia': 'Colposcopia'
+        'resultado_numerico_colposcopia': 'Colposcopia',
+        'P16': 'P16'
     }
 
     opcionr1 = opciones.get(opcion1, opcion1)
@@ -701,7 +702,7 @@ def procesarD():
     result = cur.fetchone()
     consulta02 = result['count']
     elisas_values1 = result['elisas'].split(',') if result['elisas'] else []
-    print(elisas_values1)
+    # print(elisas_values1)
 
     FP = elisas_values1
 
